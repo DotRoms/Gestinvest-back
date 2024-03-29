@@ -1,7 +1,8 @@
+-- SQLBook: Code
 -- Revert gestinvest:createdb from pg
 
 BEGIN;
 
--- XXX Add DDLs here.
+DROP TABLE "user", "portfolio", "trading_operation_type", "invest_line", "asset", "category"
 
 COMMIT;
