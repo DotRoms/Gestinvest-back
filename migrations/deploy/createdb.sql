@@ -4,14 +4,14 @@
 BEGIN;
 
 CREATE TABLE "user" (
-  "id" GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
+  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "email" VARCHAR(50) NOT NULL UNIQUE,
-  "last_name" VARCHAR(50) DEFAULT " ",
-  "first_name" VARCHAR(25) DEFAULT " ",
+  "last_name" VARCHAR(50) DEFAULT '',
+  "first_name" VARCHAR(25) DEFAULT '',
   "password" VARCHAR(255) NOT NULL,
   "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
   "updated_at" TIMESTAMPTZ
-)
+);
 
 CREATE TABLE "portfolio" (
     "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -28,18 +28,11 @@ CREATE TABLE "trading_operation_type" (
     "updated_at" TIMESTAMPTZ
 );
 
-
-CREATE TABLE "invest_line" (
-  "id" GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
-  "price" NUMERIC(15,4) NOT NULL,
-  "date" DATE NOT NULL,
-  "fees" NUMERIC(4,2) NOT NULL,
-  "asset_number" NUMERIC(20,8) NOT NULL,
-  "asset_id" INT REFERENCES "asset"("id"),
-  "portfolio_id" INT REFERENCES "portfolio"("id"),
-  "trading_operation_type_id" INT REFERENCES "trading_operation_type"("id"),
-  "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
-  "updated_at" TIMESTAMPTZ
+CREATE TABLE "category" (
+    "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "name" VARCHAR(25) NOT NULL UNIQUE,
+    "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
+    "updated_at" TIMESTAMPTZ
 );
 
 CREATE TABLE "asset" (
@@ -52,12 +45,22 @@ CREATE TABLE "asset" (
     "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE "category" (
-    "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "name" VARCHAR(25) NOT NULL UNIQUE,
-    "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
-    "updated_at" TIMESTAMPTZ
+CREATE TABLE "invest_line" (
+  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "price" NUMERIC(15,4) NOT NULL,
+  "date" DATE NOT NULL,
+  "fees" NUMERIC(4,2) NOT NULL,
+  "asset_number" NUMERIC(20,8) NOT NULL,
+  "asset_id" INT REFERENCES "asset"("id"),
+  "portfolio_id" INT REFERENCES "portfolio"("id"),
+  "trading_operation_type_id" INT REFERENCES "trading_operation_type"("id"),
+  "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
+  "updated_at" TIMESTAMPTZ
 );
+
+
+
+
 
 
 
