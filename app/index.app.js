@@ -1,8 +1,8 @@
 // Import le framework Express
-import express from "express";
+import express from 'express';
 
 // Import le routeur principal de l'application
-import router from "./routers/index.router.js";
+import router from './routers/index.api.router.js';
 
 // Initialise une nouvelle instance d'application Express
 const app = express();
