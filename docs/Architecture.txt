@@ -1,0 +1,24 @@
+/backend
+│
+├── controllers
+│   ├── authController.js
+│   ├── userController.js
+│   └── ...
+│
+├── routes
+│   ├── authRouter.js
+│   ├── userRouter.js
+│   └── ...
+│
+├── models
+│   ├── User.js
+│   ├── Portfolio.js
+│   └── ...
+│
+│
+├── middleware
+│   ├── authMiddleware.js
+│   ├── errorMiddleware.js
+│   └── ...
+│
+└── index.js
