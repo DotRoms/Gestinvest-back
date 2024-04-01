@@ -1,42 +1,44 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import users from '../datamapper/user.datamapper.js';
 
 async function signup(req, res) {
   try {
     // Récupérer les données d'inscription depuis le corps de la requête
-    const { email, password } = req.body;
+    const { email, password, confirmation } = req.body;
 
-    // Vérifier si l'utilisateur existe déjà
-    let user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).json({ message: "L'utilisateur existe déjà." });
+    // On vérifie que tous les champs sont remplis
+    if (!email || !password || !confirmation) {
+      res.status(400).json({ errorMessage: 'Veuillez remplir tous les champs' });
+      return;
     }
 
-    // Hasher le mot de passe
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // On vérifie que les mots de passe correspondent
+    if (password !== confirmation) {
+      res.status(400).json({ errorMessage: 'Les mots de passe ne correspondent pas' });
+      return;
+    }
 
-    // Créer un nouvel utilisateur
-    user = new User({
-      email,
-      password: hashedPassword,
-    });
+    // On vérifie que l'email n'est pas déjà utilisé
+    const alreadyExistingUser = await users.findByEmail(email);
+    if (alreadyExistingUser) {
+      res.status(400).json({ errorMessage: 'Cet email est déjà utilisé' });
+      return;
+    }
 
-    // Sauvegarder l'utilisateur dans la base de données
-    await user.save();
+    // On hash le mot de passe avant de le stocker en BDD
+    const numberSaltRounds = parseInt(process.env.NB_OF_SALT_ROUNDS, 10);
+    const hashedPassword = await bcrypt.hash(password, numberSaltRounds);
 
-    // Générer un token JWT
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
-    });
+    // On crée le user en BDD
+    await users.create({ email, password: hashedPassword });
 
-    // Renvoyer le token et d'autres données utilisateur
-    res.status(201).json({ token, userId: user.id, email: user.email });
+    // Envoi d'un message de succès
+    res.status(201).json({ successMessage: 'Votre compte a bien été créé, veuillez à présent vous authentifier' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erreur lors de l'inscription." });
   }
-
-  return res.json({ message: 'Hello World!' });
 }
 
 async function login(req, res) {
@@ -47,13 +49,5 @@ async function login(req, res) {
     res.status(500).json({ message: 'Erreur lors de la connexion.' });
   }
 }
-async function logout(req, res) {
-  try {
-    // Logique pour connecter un utilisateur
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erreur lors de la deconnexion.' });
-  }
-}
 
-export { login, logout, signup };
+export { login, signup };
