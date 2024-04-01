@@ -43,7 +43,33 @@ async function signup(req, res) {
 
 async function login(req, res) {
   try {
-    // Logique pour connecter un utilisateur
+    // On récupère les champs du user depuis le body
+    const { email, password } = req.body;
+
+    // On récupère l'utilisateur par son email en BDD
+    const user = await users.findByEmail(email);
+
+    // On vérifie que l'utilisateur existe
+    if (!user) {
+      res.status(400).json({ errorMessage: 'Mauvais couple email / mot de passe' });
+      return;
+    }
+
+    // On vérifie que le mot de passe correspond
+    const passwordMatches = await bcrypt.compare(password, user.password);
+    if (!passwordMatches) {
+      res.status(400).json({ errorMessage: 'Mauvais couple email / mot de passe' });
+      return;
+    }
+
+    // On crée un token JWT qui sera valide 1h
+    const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY, { expiresIn: '1h' });
+
+    // On stocke le token dans un cookie
+    // res.cookie('token', token, { httpOnly: true, secure: true });
+
+    // On envoie le token en réponse
+    res.status(201).json(token);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erreur lors de la connexion.' });
