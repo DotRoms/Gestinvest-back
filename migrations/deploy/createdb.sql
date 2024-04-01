@@ -38,7 +38,7 @@ CREATE TABLE "category" (
 CREATE TABLE "asset" (
     "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name" VARCHAR(50) NOT NULL UNIQUE,
-    "Symbol" VARCHAR(5) NOT NULL UNIQUE,
+    "Symbol" VARCHAR(10) NOT NULL UNIQUE,
     "price" NUMERIC(15,4) NOT NULL DEFAULT 0,
     "category_id" INT REFERENCES "category"("id"),
     "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
@@ -57,11 +57,5 @@ CREATE TABLE "invest_line" (
   "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
   "updated_at" TIMESTAMPTZ
 );
-
-
-
-
-
-
 
 COMMIT;
