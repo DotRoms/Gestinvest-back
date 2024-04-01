@@ -58,10 +58,4 @@ CREATE TABLE "invest_line" (
   "updated_at" TIMESTAMPTZ
 );
 
-
-
-
-
-
-
 COMMIT;
