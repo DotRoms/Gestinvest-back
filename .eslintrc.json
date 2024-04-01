@@ -9,5 +9,8 @@
         "sourceType": "module"
     },
     "rules": {
+        "no-console": "off",
+        "import/extensions": "off",
+        "max-len": "off"
     }
 }
