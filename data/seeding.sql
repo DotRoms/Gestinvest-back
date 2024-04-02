@@ -7,7 +7,7 @@ INSERT INTO "category" ("name") VALUES
 
  BEGIN;
 
-INSERT INTO "asset" ("name", "Symbol", "category_id") VALUES
+INSERT INTO "asset" ("name", "symbol", "category_id") VALUES
 ('Bitcoin', 'BTC', 1),
 ('Ethereum', 'ETH', 1),
 ('BNB', 'BNB', 1),
