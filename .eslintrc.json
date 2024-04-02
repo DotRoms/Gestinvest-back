@@ -13,4 +13,5 @@
     "import/extensions": "off",
     "max-len": "off"
   }
+
 }
