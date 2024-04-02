@@ -8,7 +8,7 @@ import 'dotenv/config';
 import app from './app/index.app.js';
 
 // Définit le port sur lequel le serveur écoutera, en utilisant la variable d'environnement PORT si elle est définie, sinon le port par défaut est 3000
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 // Crée un serveur HTTP un utilisant la fonction createServer de node.js, en passant l'application principale comme gestionnaire de requêtes
 const httpServer = createServer(app);

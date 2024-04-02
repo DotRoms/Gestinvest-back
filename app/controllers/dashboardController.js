@@ -1,51 +1,68 @@
-import dashboardDatamapper from '../datamapper/dashboard.datamapper.js';
+import dashboardDatamapper from "../datamapper/dashboard.datamapper.js";
+import calculate from "../utils/scripts.calculate.js";
 
 const dashboard = {
-
   async dashboardDetail(req, res) {
     const { id } = req.params;
     const allLines = await dashboardDatamapper.findAllTradingLinesByUser(id);
-
-    let allInvest = 0;
-    let allSell = 0;
-    const assetQuantity = {};
+    let totalInvestment = 0;
+    let assetUserInformation = [];
 
     allLines.forEach((line) => {
-      const totalPrice = line.price_invest * line.asset_number;
-      const { symbol } = line;
-      const quantity = line.asset_number;
+      const quantity = parseFloat(line.asset_number);
+      const totalPrice = line.price_invest * quantity;
+      const symbol = line.symbol;
+      const todayPrice = line.asset_price;
+      const gainOrLossPourcent = calculate.calculatePourcentGainOrLoss(
+        totalPrice,
+        todayPrice
+      );
+      const gainOrLossMoney = calculate.calculateMoneyGainOrLoss(
+        totalPrice,
+        gainOrLossPourcent
+      );
 
-      if (line.trading_operation_type === 'buy') {
-        allInvest += totalPrice;
-        if (assetQuantity.hasOwnProperty(symbol)) {
-          assetQuantity[symbol] += quantity;
+      if (line.trading_operation_type === "buy") {
+        totalInvestment += totalPrice;
+        const existingAsset = assetUserInformation.find(
+          (asset) => asset.symbol === symbol
+        );
+        if (existingAsset) {
+          existingAsset.quantity += quantity;
+          existingAsset.gainOrLossMoney += gainOrLossMoney;
         } else {
-          assetQuantity[symbol] = quantity;
+          assetUserInformation.push({
+            symbol: symbol,
+            quantity: quantity,
+            pourcentGainOrLoss: gainOrLossPourcent,
+            gainOrLossMoney: gainOrLossMoney,
+          });
         }
-      } else if (line.trading_operation_type === 'sell') {
-        allSell += totalPrice;
-        // Si vous avez besoin de suivre le nombre d'actions vendues pour chaque symbole, vous pouvez le faire ici
+      } else if (line.trading_operation_type === "sell") {
+        totalInvestment -= totalPrice;
+        const existingAsset = assetUserInformation.find(
+          (asset) => asset.symbol === symbol
+        );
+        if (existingAsset && existingAsset.quantity >= quantity) {
+          existingAsset.quantity -= quantity;
+        }
+      } else {
+        assetUserInformation.push({
+          symbol: symbol,
+          quantity: quantity,
+          pourcentGainOrLoss: gainOrLossPourcent,
+          gainOrLossMoney: gainOrLossMoney,
+        });
       }
     });
 
-    // assetQuantity.forEach((quantity) => {
-    //   for (let i = 0; i < quantity.length; i++) {
-    //     const newQuantity = quantity[0] + quantity[i + 1];
-    //   }
-    // });
-    for (const symbol in assetQuantity) {
-      let totalQuantity = 0;
-      allLines.forEach((line) => {
-        if (line.symbol === symbol) {
-          totalQuantity += line.asset_number;
-        }
-      });
-      assetQuantity[symbol] = totalQuantity;
-    }
-
-    const totalinvest = allInvest - allSell;
-    res.json({ totalinvest, assetQuantity });
-  }
+    const totalPortfolio = calculate.calculateTotalGainByAsset(assetUserInformation);
+    res.json({
+      totalInvestment,
+      assetUserInformation,
+      totalPortfolio,
+    });
+  },
 };
 
 export default dashboard;
