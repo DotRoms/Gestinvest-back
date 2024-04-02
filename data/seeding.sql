@@ -1,3 +1,4 @@
+-- SQLBook: Code
 BEGIN;
 INSERT INTO "category" ("name") VALUES
 ('crypto'),
