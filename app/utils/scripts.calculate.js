@@ -1,22 +1,85 @@
 export default {
-  calculatePourcentGainOrLoss(oldAssetPrice, newAssetPrice) {
-    const differencePrice = newAssetPrice - oldAssetPrice;
-    const pourcent = (differencePrice / oldAssetPrice) * 100;
-    return pourcent;
-  },
 
-  calculateMoneyGainOrLoss(totalPrice, gainOrLossPourcent) {
-  return totalPrice * gainOrLossPourcent / 100;
-  },
+   getAssetUserInformation(data) {
+    let assetUserInformation = [];
+    let totalEstimatePortfolio = 0;
+    let totalInvestment = 0;
+    
+    data.forEach((line) => {
+      const buyQuantity = parseFloat(line.asset_number);
+      const priceInvest = parseFloat(line.price_invest);
+      const assetPrice = parseFloat(line.asset_price);
+      const symbol = line.symbol;
+      const category = line.name;
+      const transactionType = line.trading_operation_type;
+      const totalEstimate = buyQuantity * assetPrice;
+      
+      const totalInvestLine = buyQuantity * priceInvest;
 
-  calculateTotalGainByAsset(data) {
-    let totalPortfolio = 0;
-    data.forEach((asset) => {
-      if (asset.quantity > 0) {
-        totalPortfolio += asset.gainOrLossMoney * asset.quantity; 
-      } 
+      if (transactionType === "buy") {
+        totalInvestment += totalInvestLine;
+        const existingAsset = assetUserInformation.find(
+          (asset) => asset.symbol === symbol
+        );
+        if (existingAsset) {
+          existingAsset.quantity += buyQuantity;
+          existingAsset.totalInvestByAsset += totalInvestLine;
+          existingAsset.totalEstimatedValueByAsset += totalEstimate;
+          existingAsset.assetCategory = category;
+
+        } else {
+          assetUserInformation.push({
+            symbol: symbol,
+            quantity: buyQuantity,
+            totalInvestByAsset: totalInvestLine,
+            totalEstimatedValueByAsset: totalEstimate,
+            assetCategory: category
+          });
+        }
+      } else if (transactionType === "sell") {
+        totalInvestment -= totalInvestLine;
+        const existingAsset = assetUserInformation.find(
+          (asset) => asset.symbol === symbol
+        );
+        if (existingAsset) {
+          existingAsset.quantity -= buyQuantity;
+          existingAsset.totalInvestByAsset -= totalInvestLine;
+          existingAsset.totalEstimatedValueByAsset -= totalEstimate;
+        } else {
+          assetUserInformation.push({
+            symbol: symbol,
+            quantity: buyQuantity,
+            totalInvestByAsset: totalInvestLine,
+            totalEstimatedValueByAsset: totalEstimate
+          });
+        }
+      }
+
     });
-    console.log(totalPortfolio);
-    return totalPortfolio;
+
+    data.forEach((line) => {
+      const buyQuantity = line.asset_number;
+      const assetPrice = line.asset_price;
+      const transactionType = line.trading_operation_type;
+
+      if (transactionType === "buy") {
+        totalEstimatePortfolio += buyQuantity * assetPrice;
+      } else if (transactionType === "sell") {
+        totalEstimatePortfolio -= buyQuantity * assetPrice;
+      }
+
+    });
+
+    const gainOrLossPourcent =
+      ((totalEstimatePortfolio - totalInvestment) / totalInvestment) * 100;
+    const gainOrLossMoney = totalEstimatePortfolio - totalInvestment;
+    
+    return {
+      totalInvestment,
+      totalEstimatePortfolio,
+      gainOrLossPourcent,
+      gainOrLossMoney,
+      assetUserInformation
+    };
   }
 };
