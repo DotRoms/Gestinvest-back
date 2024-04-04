@@ -77,10 +77,6 @@ const authController = {
       console.error(error);
       res.status(500).json({ errorMessage: 'Erreur lors de la connexion.' });
     }
-  },
-
-  test(req, res) {
-    res.send('ok');
   }
 };
 
