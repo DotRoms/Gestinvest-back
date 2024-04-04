@@ -5,15 +5,15 @@ const dashboard = {
     const result = await dbClient.query(
       `
         SELECT 
-            p.name,
-            il.price,
-            il.date,
+            p.name AS portfolio_name, 
+            il.price AS price_invest,
+            il.date AS invest_date,
             il.fees,
             il.asset_number,
-            tot.name,
+            tot.name AS trading_operation_type,
             c.name,
             ass.symbol,
-            ass.price
+            ass.price AS asset_price
         FROM invest_line AS il
         JOIN portfolio AS p 
                         ON portfolio_id = p.id
@@ -25,7 +25,7 @@ const dashboard = {
                         ON asset_id = ass.id
         JOIN category AS c 
                         ON category_id = c.id
-        WHERE u.id = $1
+        WHERE u.uuid = $1
         ORDER BY il.date DESC;
         `,
       [userId]
