@@ -5,6 +5,7 @@ BEGIN;
 
 CREATE TABLE "user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "uuid" UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
   "email" VARCHAR(50) NOT NULL UNIQUE,
   "last_name" VARCHAR(50) DEFAULT '',
   "first_name" VARCHAR(25) DEFAULT '',
