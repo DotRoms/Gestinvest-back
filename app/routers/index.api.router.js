@@ -7,4 +7,5 @@ const router = express.Router();
 router.use('/api/auth', authRouter);
 router.use('/api/dashboard', dashboardRouter);
 
+
 export default router;
