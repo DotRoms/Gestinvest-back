@@ -3,7 +3,7 @@ import dashBoardController from '../controllers/dashboardController.js';
 
 const router = express.Router();
 
-router.get('/:id', dashBoardController.dashboardDetail);
+router.get('/:uuid', dashBoardController.dashboardDetail);
 
 // router.post('/buy', dashBoardController);
 
