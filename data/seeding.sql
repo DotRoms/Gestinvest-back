@@ -176,4 +176,8 @@ INSERT INTO "asset" ("name", "symbol", "category_id") VALUES
 ('VIVENDI', 'VIV.PA', 2),
 ('WORLDLINE', 'WLN.PA', 2);
 
+INSERT INTO "trading_operation_type" ("name") VALUES
+('buy'),
+('sell');
+
 COMMIT;

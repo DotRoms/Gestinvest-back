@@ -39,8 +39,13 @@ const authController = {
       const hashedPassword = await bcrypt.hash(password, numberSaltRounds);
 
       // On crée le user en BDD
-      await users.create({ email, password: hashedPassword });
+      const newUser = await users.create({ email, password: hashedPassword });
+      console.log(newUser);
+      if (!newUser) {
+        res.status(500).json({ errorMessage: 'Erreur lors de la creation de votre portefeuille.' });
+      }
 
+      await users.createPortfolio(newUser);
       // Envoi d'un message de succès
       res.status(201).json({ successMessage: 'Votre compte a bien été créé, veuillez à présent vous authentifier' });
     } catch (error) {
