@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import user from '../datamapper/user.datamapper.js';
+import user from '../datamappers/user.datamapper.js';
 
 export default {
   async authMiddleware(req, res, next) {

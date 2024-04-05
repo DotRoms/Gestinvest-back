@@ -7,6 +7,10 @@ const assets = {
     return result.rows;
   },
 
+  async findAllSymbolsByCategory(categoryId) {
+    const result = await dbClient.query('SELECT symbol FROM asset WHERE "category_id" = $1', [categoryId]);
+    return result.rows;
+  },
   // retourne un asset par son id
   async findOne(id) {
     const result = await dbClient.query('SELECT * FROM asset WHERE "id" = $1', [id]);
