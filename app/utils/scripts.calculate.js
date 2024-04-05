@@ -9,6 +9,7 @@ export default {
       const buyQuantity = parseFloat(line.asset_number);
       const priceInvest = parseFloat(line.price_invest);
       const assetPrice = parseFloat(line.asset_price);
+      const assetName = line.asset_name;
       const { symbol } = line;
       const category = line.name;
       const transactionType = line.trading_operation_type;
@@ -32,7 +33,9 @@ export default {
             quantity: buyQuantity,
             totalInvestByAsset: totalInvestLine,
             totalEstimatedValueByAsset: totalEstimate,
-            assetCategory: category
+            assetCategory: category,
+            assetName,
+            assetPrice
           });
         }
       } else if (transactionType === 'sell') {
@@ -49,7 +52,9 @@ export default {
             symbol,
             quantity: buyQuantity,
             totalInvestByAsset: totalInvestLine,
-            totalEstimatedValueByAsset: totalEstimate
+            totalEstimatedValueByAsset: totalEstimate,
+            assetName,
+            assetPrice
           });
         }
       }
