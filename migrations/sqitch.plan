@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=gestinvest
+
+createdb 2024-03-29T13:59:46Z theo ducournau <theod@DESKTOP-JLAQAD8> # initialisation database
