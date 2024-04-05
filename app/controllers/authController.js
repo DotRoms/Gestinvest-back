@@ -71,8 +71,8 @@ const authController = {
 
       // On crée un token JWT qui sera valide 1h
       const token = jwt.sign({ email, uuid: user.uuid }, process.env.JWT_PRIVATE_KEY, { expiresIn: '24h' });
-
-      res.status(201).json(token);
+      console.log(token);
+      res.status(201).json({ token, user: user.uuid });
     } catch (error) {
       console.error(error);
       res.status(500).json({ errorMessage: 'Erreur lors de la connexion.' });
