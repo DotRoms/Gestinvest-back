@@ -1,6 +1,12 @@
-import getSymbols from './getSymbols.js';
+import 'dotenv/config';
+import dbClient from '../datamappers/dbClient.js';
 
-const cryptoSymbol = await getSymbols.getAllSymbol(1);
-const stockSymbol = await getSymbols.getAllSymbol(2);
+async function findAllSymbolsByCategory(categoryId) {
+  const result = await dbClient.query('SELECT symbol FROM asset WHERE "category_id" = $1', [categoryId]);
+  return result.rows;
+}
 
-console.log(cryptoSymbol, stockSymbol);
+const cryptoSymbols = await findAllSymbolsByCategory(1);
+const stockSymbols = await findAllSymbolsByCategory(2);
+
+console.log({ crypto: cryptoSymbols, bourse: stockSymbols });
