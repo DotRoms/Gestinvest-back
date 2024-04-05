@@ -122,7 +122,6 @@ INSERT INTO "asset" ("name", "symbol", "category_id") VALUES
 ('Lyft Inc.', 'LYFT', 2),
 ('Airbnb Inc.', 'ABNB', 2),
 ('DoorDash Inc.', 'DASH', 2),
-('Grubhub Inc.', 'GRUB', 2),
 ('Starbucks Corporation', 'SBUX', 2),
 ('Yum! Brands Inc.', 'YUM', 2),
 ('Chipotle Mexican Grill Inc.', 'CMG', 2),
