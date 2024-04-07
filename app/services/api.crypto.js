@@ -14,7 +14,10 @@ async function findAllSymbolsByCategory(categoryId) {
 // On met à jour le prix d'un actif en BDD
 async function updatePrices(symbol, price) {
   const symb = symbol.toUpperCase();
-  await dbClient.query('UPDATE asset SET "price" = $1 WHERE "symbol" = $2', [price, symb]);
+  await dbClient.query('UPDATE asset SET "price" = $1 WHERE "symbol" = $2', [
+    price,
+    symb
+  ]);
 }
 
 // On récupère les symboles par groupe de 40 car l'api nous limite à 40 symboles par requête
@@ -36,7 +39,6 @@ async function fetchQuotesForGroup(group) {
     method: 'GET',
     url: 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest',
     params: {
-      region: 'US',
       symbols: group
     },
     headers: {
