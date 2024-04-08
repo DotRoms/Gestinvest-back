@@ -1,7 +1,7 @@
 import axios from 'axios';
 import 'dotenv/config';
-import groupSymbols from '../utils/update.prices.api.js';
-import assetDatamapper from '../datamappers/asset.datamapper.js';
+import assetDatamapper from '../../datamappers/asset.datamapper.js';
+import groupSymbols from '../../utils/update.prices.api.js';
 
 // On récupère les prix des actifs grace à l'api Yahoo Finance
 async function fetchQuotesForGroup(group) {

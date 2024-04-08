@@ -40,7 +40,7 @@ CREATE TABLE "asset" (
     "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name" VARCHAR(50) NOT NULL UNIQUE,
     "symbol" VARCHAR(10) NOT NULL UNIQUE,
-    "price" NUMERIC(15,4) NOT NULL DEFAULT 0,
+    "price" NUMERIC(20,8) NOT NULL DEFAULT 0,
     "category_id" INT REFERENCES "category"("id"),
     "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
     "updated_at" TIMESTAMPTZ
@@ -48,7 +48,7 @@ CREATE TABLE "asset" (
 
 CREATE TABLE "invest_line" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "price" NUMERIC(15,4) NOT NULL,
+  "price" NUMERIC(20,8) NOT NULL,
   "date" DATE NOT NULL,
   "fees" NUMERIC(4,2) NOT NULL,
   "asset_number" NUMERIC(20,8) NOT NULL,
