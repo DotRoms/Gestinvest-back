@@ -3,9 +3,8 @@
 
 BEGIN;
 
-CREATE TABLE "user" (
+CREATE TABLE IF NOT EXISTS "user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "uuid" UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
   "email" VARCHAR(50) NOT NULL UNIQUE,
   "last_name" VARCHAR(50) DEFAULT '',
   "first_name" VARCHAR(25) DEFAULT '',
@@ -14,7 +13,7 @@ CREATE TABLE "user" (
   "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE "portfolio" (
+CREATE TABLE IF NOT EXISTS "portfolio" (
     "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name" VARCHAR(50) NOT NULL,
     "user_id" INT REFERENCES "user"("id"),
@@ -22,33 +21,33 @@ CREATE TABLE "portfolio" (
     "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE "trading_operation_type" (
+CREATE TABLE IF NOT EXISTS "trading_operation_type" (
     "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name" VARCHAR(25) NOT NULL UNIQUE,
     "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
     "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE "category" (
+CREATE TABLE IF NOT EXISTS "category" (
     "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name" VARCHAR(25) NOT NULL UNIQUE,
     "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
     "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE "asset" (
+CREATE TABLE IF NOT EXISTS "asset" (
     "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name" VARCHAR(50) NOT NULL UNIQUE,
     "symbol" VARCHAR(10) NOT NULL UNIQUE,
-    "price" NUMERIC(20,8) NOT NULL DEFAULT 0,
+    "price" NUMERIC(15,4) NOT NULL DEFAULT 0,
     "category_id" INT REFERENCES "category"("id"),
     "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
     "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE "invest_line" (
+CREATE TABLE IF NOT EXISTS "invest_line" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "price" NUMERIC(20,8) NOT NULL,
+  "price" NUMERIC(15,4) NOT NULL,
   "date" DATE NOT NULL,
   "fees" NUMERIC(4,2) NOT NULL,
   "asset_number" NUMERIC(20,8) NOT NULL,
@@ -61,4 +60,3 @@ CREATE TABLE "invest_line" (
 
 
 COMMIT;
-

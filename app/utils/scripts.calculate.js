@@ -9,47 +9,54 @@ export default {
       const buyQuantity = parseFloat(line.asset_number);
       const priceInvest = parseFloat(line.price_invest);
       const assetPrice = parseFloat(line.asset_price);
+      const pourcentFees = line.fees;
+      const assetName = line.asset_name;
       const { symbol } = line;
       const category = line.name;
       const transactionType = line.trading_operation_type;
       const totalEstimate = buyQuantity * assetPrice;
 
-      const totalInvestLine = buyQuantity * priceInvest;
+      const totalInvestLineWithoutFees = (buyQuantity * priceInvest);
+      const totalInvestLineWithFees = totalInvestLineWithoutFees - (totalInvestLineWithoutFees * (pourcentFees / 100));
 
       if (transactionType === 'buy') {
-        totalInvestment += totalInvestLine;
+        totalInvestment += totalInvestLineWithFees;
         const existingAsset = assetUserInformation.find(
           (asset) => asset.symbol === symbol
         );
         if (existingAsset) {
           existingAsset.quantity += buyQuantity;
-          existingAsset.totalInvestByAsset += totalInvestLine;
+          existingAsset.totalInvestByAsset += totalInvestLineWithFees;
           existingAsset.totalEstimatedValueByAsset += totalEstimate;
           existingAsset.assetCategory = category;
         } else {
           assetUserInformation.push({
             symbol,
             quantity: buyQuantity,
-            totalInvestByAsset: totalInvestLine,
+            totalInvestByAsset: totalInvestLineWithFees,
             totalEstimatedValueByAsset: totalEstimate,
-            assetCategory: category
+            assetCategory: category,
+            assetName,
+            assetPrice
           });
         }
       } else if (transactionType === 'sell') {
-        totalInvestment -= totalInvestLine;
+        totalInvestment -= totalInvestLineWithFees;
         const existingAsset = assetUserInformation.find(
           (asset) => asset.symbol === symbol
         );
         if (existingAsset) {
           existingAsset.quantity -= buyQuantity;
-          existingAsset.totalInvestByAsset -= totalInvestLine;
+          existingAsset.totalInvestByAsset -= totalInvestLineWithFees;
           existingAsset.totalEstimatedValueByAsset -= totalEstimate;
         } else {
           assetUserInformation.push({
             symbol,
             quantity: buyQuantity,
-            totalInvestByAsset: totalInvestLine,
-            totalEstimatedValueByAsset: totalEstimate
+            totalInvestByAsset: totalInvestLineWithFees,
+            totalEstimatedValueByAsset: totalEstimate,
+            assetName,
+            assetPrice
           });
         }
       }

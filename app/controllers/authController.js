@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import users from '../datamapper/user.datamapper.js';
+import users from '../datamappers/user.datamapper.js';
 
 const authController = {
   async signup(req, res) {
