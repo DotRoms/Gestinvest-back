@@ -75,6 +75,7 @@ INSERT INTO "asset" ("name", "symbol", "category_id") VALUES
 ('Terra', 'LUNA', 1),
 ('SushiSwap', 'SUSHI', 1),
 ('NEST Protocol', 'NEST', 1),
+--
 ('NVIDIA Corporation', 'NVDA', 2),
 ('Apple Inc.', 'AAPL', 2),
 ('Microsoft Corporation', 'MSFT', 2),
@@ -82,10 +83,9 @@ INSERT INTO "asset" ("name", "symbol", "category_id") VALUES
 ('Meta Platforms Inc.', 'META', 2),
 ('Alphabet Inc.', 'GOOGL', 2),
 ('Tesla Inc.', 'TSLA', 2),
-('Facebook Inc.', 'FB', 2),
 ('Alibaba Group Holding Limited', 'BABA', 2),
 ('Tencent Holdings Limited', 'TCEHY', 2),
-('Berkshire Hathaway Inc.', 'BRK.A', 2),
+('Berkshire Hathaway Inc.', 'BRK-B', 2),
 ('JPMorgan Chase & Co.', 'JPM', 2),
 ('Johnson & Johnson', 'JNJ', 2),
 ('Visa Inc.', 'V', 2),
@@ -136,7 +136,6 @@ INSERT INTO "asset" ("name", "symbol", "category_id") VALUES
 ('Lyft Inc.', 'LYFT', 2),
 ('Airbnb Inc.', 'ABNB', 2),
 ('DoorDash Inc.', 'DASH', 2),
-('Grubhub Inc.', 'GRUB', 2),
 ('Starbucks Corporation', 'SBUX', 2),
 ('Yum! Brands Inc.', 'YUM', 2),
 ('Chipotle Mexican Grill Inc.', 'CMG', 2),
@@ -181,9 +180,9 @@ INSERT INTO "asset" ("name", "symbol", "category_id") VALUES
 ('SANOFI', 'SAN.PA', 2),
 ('SCHNEIDER ELECTRIC', 'SU.PA', 2),
 ('SOCIETE GENERALE', 'GLE.PA', 2),
-('STMICROELECTRONICS', 'STM.PA', 2),
-('TECHNIPFMC', 'FTI.PA', 2),
-('TOTAL', 'FP.PA', 2),
+('STMICROELECTRONICS', 'STMPA.PA', 2),
+('TECHNIPFMC', 'FTI', 2),
+('TOTAL', 'TTE.PA', 2),
 ('UNIBAIL-RODAMCO-WESTFIELD', 'URW.PA', 2),
 ('VEOLIA ENVIRONNEMENT', 'VIE.PA', 2),
 ('VINCI', 'DG.PA', 2),
@@ -193,8 +192,8 @@ INSERT INTO "asset" ("name", "symbol", "category_id") VALUES
 COMMIT;
 BEGIN;
 INSERT INTO "invest_line" ("price", "date", "fees", "asset_number", "asset_id", "portfolio_id", "trading_operation_type_id")
-VALUES (50, '2022-10-21', 0.10, 1, 1, 1, 1),
-(50, '2022-10-21', 0.10, 1, 1, 1, 1),
-(50, '2022-10-21', 0.10, 2, 1, 1, 1),
-(50, '2022-10-21', 0.10, 1, 1, 1, 2);
+VALUES (50, '2022-10-21', 0.10, 1, 54, 1, 1),
+(50, '2022-10-21', 0.10, 1, 54, 1, 1),
+(50, '2022-10-21', 0.10, 2, 54, 1, 1),
+(50, '2022-10-21', 0.10, 1, 54, 1, 2);
 COMMIT;

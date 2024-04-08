@@ -1,11 +1,14 @@
 import jwt from 'jsonwebtoken';
-import user from '../datamapper/user.datamapper.js';
+import user from '../datamappers/user.datamapper.js';
 
 export default {
   async authMiddleware(req, res, next) {
     try {
       // Extraire le token des headers de la requête
       const token = req.headers.authorization;
+
+      // Extraire l'uuid des paramètres de la requête
+      const { uuid } = req.params;
 
       // Vérifier que le token est préfixé par "Bearer"
       if (!token || !token.startsWith('Bearer ')) {
@@ -16,9 +19,13 @@ export default {
       const jwtToken = token.slice(7);
       const decodedToken = jwt.verify(jwtToken, process.env.JWT_PRIVATE_KEY);
 
+      // Vérifier que l'uuid extrait des paramètres de la requête correspond à celui extrait du token
+      if (decodedToken.uuid !== uuid) {
+        return res.status(401).json({ errorMessage: 'Erreur authentification' });
+      }
+
       // Vérifier si l'utilisateur existe dans la base de données avec les informations extraites
       const userInfo = await user.findByEmail(decodedToken.email);
-
       if (!user) {
         return res.status(401).json({ errorMessage: 'Utilisateur non trouvé' });
       }
