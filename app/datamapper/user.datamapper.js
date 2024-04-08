@@ -14,8 +14,13 @@ const users = {
     return result.rows[0];
   },
   async create(data) {
-    await dbClient.query('INSERT INTO "user" (email, password) VALUES ($1, $2)', [data.email, data.password]);
+    const result = await dbClient.query('INSERT INTO "user" (email, password) VALUES ($1, $2) RETURNING*', [data.email, data.password]);
+    return result.rows[0];
   },
+  async createPortfolio(data) {
+    await dbClient.query('INSERT INTO portfolio (name, user_id) VALUES (\'Mon portefeuille\', $1)', [data.id]);
+  },
+
   async update(id, data) {
     const result = await dbClient.query('UPDATE "user" SET email = $1, password = $2, WHERE id = $3 RETURNING *', [data.email, data.password, id]);
     return result.rows[0];

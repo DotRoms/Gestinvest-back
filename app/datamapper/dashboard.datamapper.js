@@ -12,6 +12,7 @@ const dashboard = {
             il.asset_number,
             tot.name AS trading_operation_type,
             c.name,
+            ass.name AS asset_name,
             ass.symbol,
             ass.price AS asset_price
         FROM invest_line AS il
