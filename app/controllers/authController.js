@@ -40,7 +40,6 @@ const authController = {
 
       // On crée le user en BDD
       const newUser = await users.create({ email, password: hashedPassword });
-      console.log(newUser);
       if (!newUser) {
         res.status(500).json({ errorMessage: 'Erreur lors de la creation de votre portefeuille.' });
       }
@@ -75,9 +74,8 @@ const authController = {
       }
 
       // On crée un token JWT qui sera valide 1h
-      const token = jwt.sign({ email, uuid: user.uuid }, process.env.JWT_PRIVATE_KEY, { expiresIn: '24h' });
-      console.log(token);
-      res.status(201).json({ token, user: user.uuid });
+      const token = jwt.sign({ email, user: user.id }, process.env.JWT_PRIVATE_KEY, { expiresIn: '24h' });
+      res.status(201).json({ token });
     } catch (error) {
       console.error(error);
       res.status(500).json({ errorMessage: 'Erreur lors de la connexion.' });

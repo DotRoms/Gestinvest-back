@@ -27,6 +27,10 @@ const users = {
   },
   async delete(id) {
     await dbClient.query('UPDATE "user" SET email = null, password = null, first_name = null, last_name = null WHERE id = $1', [id]);
+  },
+  async getPortfolioByUserId(id) {
+    const result = await dbClient.query('SELECT portfolio.id FROM "portfolio" WHERE user_id = $1', [id]);
+    return result.rows[0];
   }
 };
 export default users;
