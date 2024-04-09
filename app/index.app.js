@@ -4,6 +4,9 @@ import express from 'express';
 // import des cors
 import cors from 'cors';
 
+// Import du CRON
+import task from './services/CRON.js';
+
 // Import le routeur principal de l'application
 import router from './routers/index.api.router.js';
 
@@ -21,6 +24,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Utilise le routeur princpal pour gérer les routes de l'application
 app.use(router);
+
+// Déclenchenemt du CRON
+task.start();
 
 // Export l'application pour pouvoir l'utiliser dans d'autres modules
 export default app;
