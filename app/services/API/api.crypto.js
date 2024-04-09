@@ -34,7 +34,6 @@ export default {
   // Fonction pour récupérer les prix des cryptomonnaies et les afficher
   async getPriceCrypto(categoryId, groupSize) {
     const groups = await groupSymbols.getSymbolsInGroups(categoryId, groupSize);
-    console.log(groups);
 
     // Diviser les symboles de cryptomonnaies en groupes
 

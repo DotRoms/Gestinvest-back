@@ -74,7 +74,7 @@ const assets = {
   // met à jour le prix d'un asset
   async updatePrices(symbol, price) {
     const symb = symbol.toUpperCase();
-    await dbClient.query('UPDATE asset SET "price" = $1 WHERE "symbol" = $2', [
+    await dbClient.query('UPDATE asset SET "price" = $1, "updated_at" = NOW() WHERE "symbol" = $2', [
       price,
       symb
     ]);
