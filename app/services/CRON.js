@@ -5,10 +5,13 @@ import stockApi from './API/api.stock.js';
 
 // Définir la tâche cron
 const task = cron.schedule(
-  '27 10 * * *',
+  '35 10 * * *',
   async () => {
+    console.log('running task');
     await cryptoApi.getPriceCrypto(1, 60);
-    await stockApi.getPriceStock(2, 40);
+    console.log('midle task');
+    await stockApi.getPriceStock(2, 10);
+    console.log('done');
     // Code à exécuter chaque minute
   },
   {
