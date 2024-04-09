@@ -3,10 +3,12 @@ import dashBoardController from '../controllers/dashboardController.js';
 
 const router = express.Router();
 
-router.get('/user/:uuid', dashBoardController.dashboardDetail);
+router.get('/', dashBoardController.dashboardDetail);
 
-router.post('/buy', dashBoardController);
+router.get('/modal', dashBoardController.openModal);
 
-router.post('/sell', dashBoardController);
+// router.post('/buy/:uuid', dashBoardController.addLine);
+
+// router.post('/sell', dashBoardController.addLine);
 
 export default router;

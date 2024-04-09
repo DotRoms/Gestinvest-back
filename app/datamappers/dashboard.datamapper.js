@@ -26,7 +26,7 @@ const dashboard = {
                         ON asset_id = ass.id
         JOIN category AS c 
                         ON category_id = c.id
-        WHERE u.uuid = $1
+        WHERE u.id = $1
         ORDER BY il.date DESC;
         `,
       [userId]

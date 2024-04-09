@@ -78,6 +78,17 @@ const assets = {
       price,
       symb
     ]);
+  },
+
+  async findAssetNameAndCategory() {
+    const result = await dbClient.query(`
+    SELECT 
+      asset.name AS asset_name,
+      category.name AS category_name
+  FROM asset
+    JOIN 
+      category ON asset.category_id = category.id`);
+    return result.rows;
   }
 };
 
