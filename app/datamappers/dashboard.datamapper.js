@@ -36,7 +36,7 @@ const dashboard = {
 
   async addLine(data) {
     const result = await dbClient.query(
-      'INSERT INTO invest_line (asset_id, portfolio_id, asset_number, price, fees, date, trading_operation_type_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      'INSERT INTO invest_line (asset_id, portfolio_id, asset_number, price, fees, date, trading_operation_type_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
       [
         data.assetId,
         data.portfolioId,

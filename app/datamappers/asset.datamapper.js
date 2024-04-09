@@ -89,6 +89,12 @@ const assets = {
     JOIN 
       category ON asset.category_id = category.id`);
     return result.rows;
+  },
+
+  async getAssetId(assetName) {
+    const name = assetName.toLowerCase();
+    const result = await dbClient.query('SELECT id FROM asset WHERE LOWER("name") = $1', [name]);
+    return result.rows[0];
   }
 };
 

@@ -7,8 +7,8 @@ router.get('/', dashBoardController.dashboardDetail);
 
 router.get('/modal', dashBoardController.openModal);
 
-// router.post('/buy/:uuid', dashBoardController.addLine);
+router.post('/buy', dashBoardController.addLine);
 
-// router.post('/sell', dashBoardController.addLine);
+router.post('/sell', dashBoardController.addLine);
 
 export default router;
