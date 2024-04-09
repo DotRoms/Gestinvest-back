@@ -29,7 +29,7 @@ async function executeTaskWithRetry() {
 }
 
 const task = cron.schedule(
-  '57 10 * * *',
+  '10 11 * * *',
   async () => {
     console.log('running task');
     await executeTaskWithRetry();
