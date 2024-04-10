@@ -2,6 +2,12 @@ export default {
 
   getAssetUserInformation(data) {
     const assetUserInformation = [];
+
+    const priceByCategory = {
+      crypto: 0,
+      stock: 0
+    };
+
     let totalEstimatePortfolio = 0;
     let totalInvestment = 0;
 
@@ -32,7 +38,7 @@ export default {
         } else {
           assetUserInformation.push({
             symbol,
-            quantity: buyQuantity,
+            quantity: buyQuantity, // not this
             totalInvestByAsset: totalInvestLineWithFees,
             totalEstimatedValueByAsset: totalEstimate,
             assetCategory: category,
@@ -41,7 +47,6 @@ export default {
           });
         }
       } else if (transactionType === 'sell') {
-        totalInvestment -= totalInvestLineWithFees;
         const existingAsset = assetUserInformation.find(
           (asset) => asset.symbol === symbol
         );
@@ -77,11 +82,24 @@ export default {
     const gainOrLossPourcent = ((totalEstimatePortfolio - totalInvestment) / totalInvestment) * 100;
     const gainOrLossMoney = totalEstimatePortfolio - totalInvestment;
 
+    assetUserInformation.forEach((asset) => {
+      if (asset.assetCategory === 'crypto') {
+        priceByCategory.crypto += asset.totalEstimatedValueByAsset;
+      } else if (asset.assetCategory === 'stock') {
+        priceByCategory.stock += asset.totalEstimatedValueByAsset;
+      }
+    });
+
+    const cryptoPourcent = (priceByCategory.crypto / (priceByCategory.crypto + priceByCategory.stock)) * 100;
+    const stockPourcent = (priceByCategory.stock / (priceByCategory.stock + priceByCategory.crypto)) * 100;
+
     return {
       totalInvestment,
       totalEstimatePortfolio,
       gainOrLossPourcent,
       gainOrLossMoney,
+      cryptoPourcent,
+      stockPourcent,
       assetUserInformation
     };
   }

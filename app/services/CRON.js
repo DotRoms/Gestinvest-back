@@ -4,7 +4,7 @@ import stockApi from './API/api.stock.js';
 import cryptoApi from './API/api.crypto.js';
 
 const task = cron.schedule(
-  '0 0,12 * * *',
+  '56 9 * * *',
   async () => {
     await cryptoApi.getPriceCrypto(1, 60);
     await stockApi.getPriceStock(2, 40);
