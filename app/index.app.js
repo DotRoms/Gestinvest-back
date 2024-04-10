@@ -5,7 +5,7 @@ import express from 'express';
 import cors from 'cors';
 
 // Import du CRON
-import task from './services/CRON.js';
+import task from './utils/API/CRON.js';
 
 // Import le routeur principal de l'application
 import router from './routers/index.api.router.js';

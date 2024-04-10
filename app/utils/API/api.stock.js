@@ -1,7 +1,7 @@
 import axios from 'axios';
 import 'dotenv/config';
 import assetDatamapper from '../../datamappers/asset.datamapper.js';
-import groupSymbols from '../../utils/update.prices.api.js';
+import groupSymbols from '../update.prices.api.js';
 
 const RATE_LIMIT_DELAY = 1000; // Délai en millisecondes entre chaque requête (1000 ms = 1 seconde)
 let lastRequestTimestamp = 0; // Timestamp de la dernière requête

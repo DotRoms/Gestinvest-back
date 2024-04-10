@@ -90,8 +90,15 @@ export default {
       }
     });
 
-    const cryptoPourcent = (priceByCategory.crypto / (priceByCategory.crypto + priceByCategory.stock)) * 100;
-    const stockPourcent = (priceByCategory.stock / (priceByCategory.stock + priceByCategory.crypto)) * 100;
+    let cryptoPourcent = (priceByCategory.crypto / (priceByCategory.crypto + priceByCategory.stock)) * 100;
+    let stockPourcent = (priceByCategory.stock / (priceByCategory.stock + priceByCategory.crypto)) * 100;
+
+    if (Number.isNaN(cryptoPourcent)) {
+      cryptoPourcent = 0;
+    }
+    if (Number.isNaN(stockPourcent)) {
+      stockPourcent = 0;
+    }
 
     // On teste si le portefeuille est en gain ou en perte pour afficher la couleur correspondante dans le front
     const gainOrLossTotalPortfolio = (totalEstimatePortfolio - totalInvestment) > 0 ? 'positive' : 'negative';

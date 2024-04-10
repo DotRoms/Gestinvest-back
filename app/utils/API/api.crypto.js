@@ -1,7 +1,7 @@
 import axios from 'axios';
 import 'dotenv/config';
 import assetDatamapper from '../../datamappers/asset.datamapper.js';
-import groupSymbols from '../../utils/update.prices.api.js';
+import groupSymbols from '../update.prices.api.js';
 
 export default {
 
