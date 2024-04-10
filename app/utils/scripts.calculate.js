@@ -38,7 +38,7 @@ export default {
         } else {
           assetUserInformation.push({
             symbol,
-            quantity: buyQuantity, // not this
+            quantity: buyQuantity,
             totalInvestByAsset: totalInvestLineWithFees,
             totalEstimatedValueByAsset: totalEstimate,
             assetCategory: category,
@@ -93,9 +93,18 @@ export default {
     const cryptoPourcent = (priceByCategory.crypto / (priceByCategory.crypto + priceByCategory.stock)) * 100;
     const stockPourcent = (priceByCategory.stock / (priceByCategory.stock + priceByCategory.crypto)) * 100;
 
+    // On teste si le portefeuille est en gain ou en perte pour afficher la couleur correspondante dans le front
+    const gainOrLossTotalPortfolio = (totalEstimatePortfolio - totalInvestment) > 0 ? 'positive' : 'negative';
+
+    assetUserInformation.forEach((asset, index) => {
+      const gainOrLoss = asset.totalEstimatedValueByAsset - asset.totalInvestByAsset;
+      assetUserInformation[index].gainOrLossTotalByAsset = gainOrLoss > 0 ? 'positive' : 'negative';
+    });
+
     return {
       totalInvestment,
       totalEstimatePortfolio,
+      gainOrLossTotalPortfolio,
       gainOrLossPourcent,
       gainOrLossMoney,
       cryptoPourcent,
