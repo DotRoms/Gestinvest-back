@@ -39,7 +39,7 @@ const dashboard = {
     const tradingTypeId = await tradingOperationDatamapper.getOperationByName(tradingOperationType);
 
     // On récupère l'id de l'asset que l'on achète ou vend
-    const assetId = await assetDatamapper.getAssetId(data.assetName);
+    const assetId = await assetDatamapper.getAssetId(data.asset_name);
 
     // On récupère toutes les lignes d'investissement de l'utilisateur et on fait tout les calculs
     const allLines = await dashboardDatamapper.findAllTradingLinesByUser(id);
@@ -47,7 +47,7 @@ const dashboard = {
 
     // On vérifie si l'utilisateur ne vend pas plus d'asset qu'il n'en possède
     if (data.tradingOperationType === 'sell') {
-      const invalidData = assetInformationByUser.assetUserInformation.find((obj) => obj.assetName.toLowerCase() === data.assetName.toLowerCase() && obj.quantity < data.assetNumber);
+      const invalidData = assetInformationByUser.assetUserInformation.find((obj) => obj.asset_name.toLowerCase() === data.asset_name.toLowerCase() && obj.quantity < data.asset_number);
 
       if (invalidData || data.assetNumber === 0) {
         return res.status(400).json({ errorMessage: 'La valeur saisie n\'est pas valide' });
@@ -58,7 +58,7 @@ const dashboard = {
     const newData = {
       assetId: assetId.id,
       portfolioId: portfolioId.id,
-      assetNumber: data.assetNumber,
+      asset_number: data.asset_number,
       price: data.price,
       fees: data.fees,
       date: data.date,

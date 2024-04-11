@@ -40,7 +40,7 @@ const dashboard = {
       [
         data.assetId,
         data.portfolioId,
-        data.assetNumber,
+        data.asset_number,
         data.price,
         data.fees,
         data.date,
