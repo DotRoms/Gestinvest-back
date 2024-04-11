@@ -1,7 +1,7 @@
 import axios from 'axios';
 import 'dotenv/config';
 import assetDatamapper from '../../datamappers/asset.datamapper.js';
-import groupSymbols from '../../utils/update.prices.api.js';
+import groupSymbols from '../update.prices.api.js';
 
 const RATE_LIMIT_DELAY = 1000; // Délai en millisecondes entre chaque requête (1000 ms = 1 seconde)
 let lastRequestTimestamp = 0; // Timestamp de la dernière requête
@@ -67,8 +67,8 @@ export default {
         symbols: group
       },
       headers: {
-        'X-RapidAPI-Key': '1b92d523d0msh23c22511d5db90ep1997f0jsnc943a54e2ef7',
-        'X-RapidAPI-Host': 'yh-finance.p.rapidapi.com'
+        'X-RapidAPI-Key': process.env.API_KEY_YH,
+        'X-RapidAPI-Host': process.env.API_HOST_YH
       }
     };
 
