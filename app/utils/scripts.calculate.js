@@ -47,6 +47,7 @@ export default {
           });
         }
       } else if (transactionType === 'sell') {
+        totalInvestment -= totalInvestLineWithFees;
         const existingAsset = assetUserInformation.find(
           (asset) => asset.symbol === symbol
         );
@@ -79,7 +80,7 @@ export default {
       }
     });
 
-    const gainOrLossPourcent = ((totalEstimatePortfolio - totalInvestment) / totalInvestment) * 100;
+    const gainOrLossPourcent = Math.round(((totalEstimatePortfolio - totalInvestment) / totalInvestment) * 100);
     const gainOrLossMoney = totalEstimatePortfolio - totalInvestment;
 
     assetUserInformation.forEach((asset) => {
