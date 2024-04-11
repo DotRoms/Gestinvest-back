@@ -18,6 +18,7 @@ const dashboard = {
   async openModal(req, res) {
     // On récupère tout les assets avec leurs catégories
     const allAsset = await assetDatamapper.findAssetNameAndCategory();
+    // On retourne les assets
     res.json({ allAsset });
   },
 
