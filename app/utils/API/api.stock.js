@@ -67,8 +67,8 @@ export default {
         symbols: group
       },
       headers: {
-        'X-RapidAPI-Key': '1b92d523d0msh23c22511d5db90ep1997f0jsnc943a54e2ef7',
-        'X-RapidAPI-Host': 'yh-finance.p.rapidapi.com'
+        'X-RapidAPI-Key': process.env.API_KEY_YH,
+        'X-RapidAPI-Host': process.env.API_HOST_YH
       }
     };
 

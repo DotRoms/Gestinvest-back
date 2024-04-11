@@ -13,7 +13,7 @@ export default {
     // Configuration de l'en-tête de la requête avec votre clé d'API
     const config = {
       headers: {
-        'X-CMC_PRO_API_KEY': '08a94e55-8a2b-4854-922f-91bf04c7f6b6'
+        'X-CMC_PRO_API_KEY': process.env.API_KEY_CMC
       }
     };
 
