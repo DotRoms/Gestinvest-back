@@ -68,6 +68,7 @@ const dashboard = {
     // Une fois les vérifications effectuées, on ajoute la ligne en base de données
     await dashboardDatamapper.addLine(newData);
 
+    // On retourne que l'ajout a bien été effectué
     return res.json({ successMessage: 'Ajout bien effectuer' });
   }
 };
