@@ -1,12 +1,15 @@
 import express from 'express';
+import controllerWrapper from '../middlewares/controller.wrapper.middleware.js';
 import dashBoardController from '../controllers/dashboardController.js';
 
 const router = express.Router();
 
-router.get('/:uuid', dashBoardController.dashboardDetail);
+router.get('/', controllerWrapper(dashBoardController.dashboardDetail));
 
-// router.post('/buy', dashBoardController);
+router.get('/modal', controllerWrapper(dashBoardController.openModal));
 
-// router.post('/sell', dashBoardController);
+router.post('/buy', controllerWrapper(dashBoardController.addLine));
+
+router.post('/sell', controllerWrapper(dashBoardController.addLine));
 
 export default router;

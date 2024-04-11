@@ -7,9 +7,6 @@ export default {
       // Extraire le token des headers de la requête
       const token = req.headers.authorization;
 
-      // Extraire l'uuid des paramètres de la requête
-      const { uuid } = req.params;
-
       // Vérifier que le token est préfixé par "Bearer"
       if (!token || !token.startsWith('Bearer ')) {
         return res.status(401).json({ errorMessage: 'Requête non authentifiée' });
@@ -18,11 +15,6 @@ export default {
       // Vérifier la validité du token et extraire les informations d'identification de l'utilisateur
       const jwtToken = token.slice(7);
       const decodedToken = jwt.verify(jwtToken, process.env.JWT_PRIVATE_KEY);
-
-      // Vérifier que l'uuid extrait des paramètres de la requête correspond à celui extrait du token
-      if (decodedToken.uuid !== uuid) {
-        return res.status(401).json({ errorMessage: 'Erreur authentification' });
-      }
 
       // Vérifier si l'utilisateur existe dans la base de données avec les informations extraites
       const userInfo = await user.findByEmail(decodedToken.email);
