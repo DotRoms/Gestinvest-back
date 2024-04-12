@@ -27,7 +27,8 @@ const dashboard = {
 
     // On récupère l'url pour savoir si c'est un achat ou une vente
     const { url } = req;
-    const tradingOperationType = url.substring(1, url.indexOf('?'));
+    // On enleve le / de l'url pour recuperer buy ou sell
+    const tradingOperationType = url.substring(1/* , url.indexOf('?') */);
 
     // On récupère les données de la requête pour pouvoir les ajout de l'achat ou de la vente d'asset
     const assetName = req.body.asset_name;
