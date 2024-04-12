@@ -18,6 +18,6 @@ httpServer.listen(PORT, () => {
   // Vérifie si l'environnement de node n'est pas défini sur 'production'
   if (process.env.NODE_ENV !== 'production') {
     // Affiche un message indiquant que le serveur HTTP a été lancé, avec l'URL d'accès
-    console.log(`🚀 HTTP Server launched at htpp://localhost:${PORT} 🎉`);
+    console.log(`🚀 HTTP Server launched at httpp://localhost:${PORT} 🎉`);
   }
 });
