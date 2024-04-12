@@ -102,9 +102,9 @@ export default {
       }
     });
 
-    // On calcule la répartition du portefeuille, pourcentage de crypto et de stock
-    let cryptoPourcent = (priceByCategory.crypto / (priceByCategory.crypto + priceByCategory.stock)) * 100;
-    let stockPourcent = (priceByCategory.stock / (priceByCategory.stock + priceByCategory.crypto)) * 100;
+    // On calcule la répartition du portefeuille, pourcentage de crypto et de stock que l'ont truncate ensuite
+    let cryptoPourcent = this.truncateToTwoDecimals((priceByCategory.crypto / (priceByCategory.crypto + priceByCategory.stock)) * 100);
+    let stockPourcent = this.truncateToTwoDecimals((priceByCategory.stock / (priceByCategory.stock + priceByCategory.crypto)) * 100);
 
     if (Number.isNaN(cryptoPourcent)) {
       cryptoPourcent = 0;
