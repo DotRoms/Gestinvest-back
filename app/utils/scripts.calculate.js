@@ -26,7 +26,7 @@ export default {
       const { symbol } = line;
       const category = line.name;
       const transactionType = line.trading_operation_type;
-      const totalEstimate = buyQuantity * assetPrice;
+      const totalEstimate = this.truncateToTwoDecimals(buyQuantity * assetPrice);
 
       const totalInvestLineWithoutFees = (buyQuantity * priceInvest);
       const totalInvestLineWithFees = totalInvestLineWithoutFees - (totalInvestLineWithoutFees * (pourcentFees / 100));
@@ -102,9 +102,9 @@ export default {
       }
     });
 
-    // On calcule la répartition du portefeuille, pourcentage de crypto et de stock
-    let cryptoPourcent = (priceByCategory.crypto / (priceByCategory.crypto + priceByCategory.stock)) * 100;
-    let stockPourcent = (priceByCategory.stock / (priceByCategory.stock + priceByCategory.crypto)) * 100;
+    // On calcule la répartition du portefeuille, pourcentage de crypto et de stock que l'ont truncate ensuite
+    let cryptoPourcent = this.truncateToTwoDecimals((priceByCategory.crypto / (priceByCategory.crypto + priceByCategory.stock)) * 100);
+    let stockPourcent = this.truncateToTwoDecimals((priceByCategory.stock / (priceByCategory.stock + priceByCategory.crypto)) * 100);
 
     if (Number.isNaN(cryptoPourcent)) {
       cryptoPourcent = 0;
