@@ -124,6 +124,10 @@ export default {
 
     // On tronque à deux chiffres après la virgule
     totalEstimatePortfolio = this.truncateToTwoDecimals(totalEstimatePortfolio);
+    console.log(assetUserInformation);
+    assetUserInformation.forEach((asset) => {
+      asset.totalEstimatedValueByAsset = this.truncateToTwoDecimals(asset.totalEstimatedValueByAsset);
+    });
 
     return {
       totalInvestment,
