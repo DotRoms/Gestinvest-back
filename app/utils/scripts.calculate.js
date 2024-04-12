@@ -26,7 +26,7 @@ export default {
       const { symbol } = line;
       const category = line.name;
       const transactionType = line.trading_operation_type;
-      const totalEstimate = buyQuantity * assetPrice;
+      const totalEstimate = this.truncateToTwoDecimals(buyQuantity * assetPrice);
 
       const totalInvestLineWithoutFees = (buyQuantity * priceInvest);
       const totalInvestLineWithFees = totalInvestLineWithoutFees - (totalInvestLineWithoutFees * (pourcentFees / 100));
@@ -124,10 +124,6 @@ export default {
 
     // On tronque à deux chiffres après la virgule
     totalEstimatePortfolio = this.truncateToTwoDecimals(totalEstimatePortfolio);
-    console.log(assetUserInformation);
-    assetUserInformation.forEach((asset) => {
-      asset.totalEstimatedValueByAsset = this.truncateToTwoDecimals(asset.totalEstimatedValueByAsset);
-    });
 
     return {
       totalInvestment,
