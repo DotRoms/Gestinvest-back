@@ -29,6 +29,11 @@ const dashboard = {
     const { fees } = req.body;
     const { date } = req.body;
 
+    // On vérifie que tous les champs soient bien remplis
+    if (!assetName || !assetNumber || !price || !fees || !date) {
+      return res.status(400).json({ errorMessage: 'Veuillez remplir tous les champs' });
+    }
+
     // On récupère l'id de l'asset que l'on achète ou vend
     const assetId = await assetDatamapper.getAssetId(assetName);
     if (!assetId) {
