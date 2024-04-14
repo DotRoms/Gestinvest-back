@@ -22,29 +22,32 @@ const dashboard = {
   },
 
   async addLine(req, res) {
-    // On récupère l'id de l'utilisateur
-    const { id } = req.user;
-
-    // On récupère l'url pour savoir si c'est un achat ou une vente
-    const { url } = req;
-    // On enleve le / de l'url pour recuperer buy ou sell
-    const tradingOperationType = url.substring(1/* , url.indexOf('?') */);
-
-    // On récupère les données de la requête pour pouvoir les ajout de l'achat ou de la vente d'asset
+    // On récupère les données de la requête pour pouvoir faire l'ajout de l'achat ou de la vente d'asset
     const assetName = req.body.asset_name;
     const assetNumber = req.body.asset_number;
     const { price } = req.body;
     const { fees } = req.body;
     const { date } = req.body;
 
+    // On récupère l'id de l'asset que l'on achète ou vend
+    const assetId = await assetDatamapper.getAssetId(assetName);
+    if (!assetId) {
+      return res.status(400).json({ errorMessage: 'Cet actif n\'est pas répertorié' });
+    }
+
+    // On récupère l'id de l'utilisateur
+    const { id } = req.user;
+
+    // On récupère l'url pour savoir si c'est un achat ou une vente
+    const { url } = req;
+    // On enleve le / de l'url pour recuperer buy ou sell
+    const tradingOperationType = url.substring(1);
+
     // On récupère l'id du portfolio de l'utilisateur
     const portfolioId = await userDatamapper.getPortfolioByUserId(id);
 
     // On récupère l'id du type de l'opération
     const tradingTypeId = await tradingOperationDatamapper.getOperationByName(tradingOperationType);
-
-    // On récupère l'id de l'asset que l'on achète ou vend
-    const assetId = await assetDatamapper.getAssetId(assetName);
 
     // On récupère toutes les lignes d'investissement de l'utilisateur et on fait tout les calculs
     const allLines = await dashboardDatamapper.findAllTradingLinesByUser(id);
