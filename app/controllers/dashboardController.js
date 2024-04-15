@@ -1,8 +1,9 @@
 import dashboardDatamapper from '../datamappers/dashboard.datamapper.js';
-import calculateAssetInformation from '../utils/scripts.calculate.js';
+import calculateAssetInformation from '../utils/scripts.dashboard.calculate.js';
 import assetDatamapper from '../datamappers/asset.datamapper.js';
 import userDatamapper from '../datamappers/user.datamapper.js';
 import tradingOperationDatamapper from '../datamappers/tradingOperation.datamapper.js';
+import scriptAssetCalculate from '../utils/script.asset.calculate.js';
 
 const dashboard = {
   async dashboardDetail(req, res) {
@@ -83,6 +84,15 @@ const dashboard = {
 
     // On retourne que l'ajout a bien été effectué
     return res.json({ successMessage: 'Ajout bien effectuer' });
+  },
+
+  async assetDetails(req, res) {
+    const symbol = req.params.asset;
+    const userId = req.user.id;
+
+    const assetDetails = await dashboardDatamapper.getAllAssetLineByUser(userId, symbol);
+    const assetDetailsCalculated = scriptAssetCalculate.calculate(assetDetails);
+    res.json({ assetDetailsCalculated });
   }
 };
 export default dashboard;
