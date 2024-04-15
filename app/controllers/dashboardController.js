@@ -87,11 +87,18 @@ const dashboard = {
   },
 
   async assetDetails(req, res) {
+    // On récupère le symbole de l'asset depuis les params de la requête
     const symbol = req.params.asset;
+
+    // On récupère l'id de l'utilisateur
     const userId = req.user.id;
 
+    // On récupère toutes les lignes d'investissement de l'utilisateur pour un actif donné
     const assetDetails = await dashboardDatamapper.getAllAssetLineByUser(userId, symbol);
+
+    // On fait les calculs pour avoir le détail de toutes les lignes suivant un actif
     const assetDetailsCalculated = scriptAssetCalculate.calculate(assetDetails);
+
     res.json({ assetDetailsCalculated });
   }
 };

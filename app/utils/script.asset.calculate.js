@@ -1,10 +1,21 @@
+import dayjs from 'dayjs';
+
 export default {
 
+  // Permet de tronquer un nombre à huit chiffres après la virgule
   truncateToEightDecimals(nombre) {
     return Math.trunc(nombre * 100000000) / 100000000;
   },
+
+  // Permet de tronquer un nombre à deux chiffres après la virgule
   truncateToTwoDecimals(nombre) {
     return Math.trunc(nombre * 100) / 100;
+  },
+
+  // Permet de formater la date au format FR jj-mm-aaaa
+  formatDateFr(date) {
+    const dateToFormat = dayjs(date);
+    return dateToFormat.format('DD-MM-YYYY');
   },
 
   calculate(data) {
@@ -12,11 +23,12 @@ export default {
     let totalAssetNumber = 0;
     const { name } = data[0];
     const { symbol } = data[0];
+    const assetId = data[0].asset_id;
     const assetLineDetail = [];
 
     data.forEach((line) => {
       const lineId = line.id;
-      const date = line.invest_date;
+      const date = this.formatDateFr(line.invest_date);
       const priceInvest = parseFloat(line.price_invest);
       const buyQuantity = parseFloat(line.asset_number);
       const operationType = line.trading_operation_type;
@@ -49,6 +61,7 @@ export default {
       totalAssetNumber: this.truncateToEightDecimals(totalAssetNumber),
       name,
       symbol,
+      assetId,
       assetLineDetail
     };
   }

@@ -82,7 +82,8 @@ const dashboard = {
             tot.name AS trading_operation_type,
             c.name,
             ass.name,
-            ass.symbol
+            ass.symbol,
+            ass.id AS asset_id
             FROM invest_line AS il
         JOIN portfolio AS p 
                         ON portfolio_id = p.id
