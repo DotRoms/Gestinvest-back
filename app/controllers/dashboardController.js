@@ -4,6 +4,7 @@ import assetDatamapper from '../datamappers/asset.datamapper.js';
 import userDatamapper from '../datamappers/user.datamapper.js';
 import tradingOperationDatamapper from '../datamappers/tradingOperation.datamapper.js';
 import scriptAssetCalculate from '../utils/script.asset.calculate.js';
+import isDateOk from '../utils/testDate.js';
 
 const dashboard = {
   async dashboardDetail(req, res) {
@@ -29,6 +30,12 @@ const dashboard = {
     const { price } = req.body;
     const { fees } = req.body;
     const { date } = req.body;
+
+    // On vérifie que la date envoyée par l'utilisateur n'est pas supérieur à la date actuelle
+    const dateCheck = isDateOk(date);
+    if (dateCheck) {
+      return res.status(400).json({ errorMessage: 'La date n\'est pas valide' });
+    }
 
     // On vérifie que tous les champs soient bien remplis
     if (!assetName || !assetNumber || !price || !fees || !date) {
