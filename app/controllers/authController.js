@@ -13,13 +13,20 @@ const authController = {
       return;
     }
 
+    // On vérifie que l'email est valide avec une regex
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailRegex.test(email)) {
+      res.status(400).json({ errorMessage: 'Email invalide' });
+      return;
+    }
+
     // On vérifie que les mots de passe correspondent
     if (password !== confirmation) {
       res.status(400).json({ errorMessage: 'Les mots de passe ne correspondent pas' });
       return;
     }
 
-    // Vérifier la complexité du mot de passe
+    // Vérifier la complexité du mot de passe avec une regex
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
       res.status(400).json({ errorMessage: 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre, un caractère spécial et avoir une longueur minimale de 8 caractères.' });
