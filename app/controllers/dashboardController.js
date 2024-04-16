@@ -34,18 +34,18 @@ const dashboard = {
     // On vérifie que la date envoyée par l'utilisateur n'est pas supérieur à la date actuelle
     const dateCheck = isDateOk(date);
     if (dateCheck) {
-      return res.status(400).json({ errorMessage: 'La date n\'est pas valide' });
+      throw new Error('La date n\'est pas valide');
     }
 
     // On vérifie que tous les champs soient bien remplis
     if (!assetName || !assetNumber || !price || !fees || !date) {
-      return res.status(400).json({ errorMessage: 'Veuillez remplir tous les champs' });
+      throw new Error('Veuillez remplir tous les champs');
     }
 
     // On récupère l'id de l'asset que l'on achète ou vend
     const assetId = await assetDatamapper.getAssetId(assetName);
     if (!assetId) {
-      return res.status(400).json({ errorMessage: 'Cet actif n\'est pas répertorié' });
+      throw new Error('Cet actif n\'est pas répertorié');
     }
 
     // On récupère l'id de l'utilisateur
@@ -71,7 +71,7 @@ const dashboard = {
       const invalidData = assetInformationByUser.assetUserInformation.find((obj) => obj.assetName.toLowerCase() === assetName.toLowerCase() && obj.quantity < assetNumber);
 
       if (invalidData || assetNumber === 0) {
-        return res.status(400).json({ errorMessage: 'La valeur saisie n\'est pas valide' });
+        throw new Error('La valeur saisie n\'est pas valide');
       }
     }
 

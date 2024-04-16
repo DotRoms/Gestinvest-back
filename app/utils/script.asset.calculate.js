@@ -22,8 +22,11 @@ export default {
     let totalEstimateAsset = 0;
     let totalAssetNumber = 0;
     const { name } = data[0];
-    const { symbol } = data[0];
+    let { symbol } = data[0];
+    const categoryName = data[0].category_name;
+    const { price } = data[0];
     const assetId = data[0].asset_id;
+    const { local } = data[0];
     const assetLineDetail = [];
 
     data.forEach((line) => {
@@ -38,10 +41,8 @@ export default {
       const totalInvestLineWithFees = totalInvestLineWithoutFees - (totalInvestLineWithoutFees * (fees / 100));
 
       if (operationType === 'buy') {
-        totalEstimateAsset += totalInvestLineWithFees;
         totalAssetNumber += buyQuantity;
       } else if (operationType === 'sell') {
-        totalEstimateAsset -= totalInvestLineWithFees;
         totalAssetNumber -= buyQuantity;
       }
 
@@ -56,11 +57,19 @@ export default {
       });
     });
 
+    totalEstimateAsset = totalAssetNumber * price;
+
+    if (categoryName === 'stock') {
+      symbol = symbol.replace(/\.PA$/, '');
+    }
+
     return {
       totalEstimateAsset: this.truncateToTwoDecimals(totalEstimateAsset),
       totalAssetNumber: this.truncateToEightDecimals(totalAssetNumber),
       name,
       symbol,
+      local,
+      categoryName,
       assetId,
       assetLineDetail
     };

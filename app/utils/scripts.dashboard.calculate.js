@@ -31,6 +31,10 @@ export default {
       const totalInvestLineWithoutFees = (buyQuantity * priceInvest);
       const totalInvestLineWithFees = totalInvestLineWithoutFees - (totalInvestLineWithoutFees * (pourcentFees / 100));
 
+      // if (category === 'stock') {
+      //   symbol = symbol.replace(/\.PA$/, '');
+      // }
+
       if (transactionType === 'buy') {
         totalInvestment += totalInvestLineWithFees;
         const existingAsset = assetUserInformation.find(

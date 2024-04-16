@@ -40,6 +40,7 @@ CREATE TABLE "asset" (
     "name" VARCHAR(50) NOT NULL UNIQUE,
     "symbol" VARCHAR(10) NOT NULL UNIQUE,
     "price" NUMERIC(20,8) NOT NULL DEFAULT 0,
+    "local" VARCHAR(8),
     "category_id" INT REFERENCES "category"("id"),
     "created_at" TIMESTAMPTZ DEFAULT now() NOT NULL,
     "updated_at" TIMESTAMPTZ
