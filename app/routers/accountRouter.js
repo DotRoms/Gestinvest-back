@@ -4,7 +4,7 @@ import accountController from '../controllers/accountController.js';
 
 const router = express.Router();
 
-router.get('/', controllerWrapper(accountController.getUSer));
+router.get('/', controllerWrapper(accountController.getUser));
 router.patch('/update', controllerWrapper(accountController.updateUser));
 
 export default router;

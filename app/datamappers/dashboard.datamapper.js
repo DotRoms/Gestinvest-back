@@ -83,7 +83,8 @@ const dashboard = {
             c.name,
             ass.name,
             ass.symbol,
-            ass.id AS asset_id
+            ass.id AS asset_id,
+            ass.price
             FROM invest_line AS il
         JOIN portfolio AS p 
                         ON portfolio_id = p.id

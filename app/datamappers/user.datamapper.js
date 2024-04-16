@@ -22,7 +22,7 @@ const users = {
   },
 
   async update(id, data) {
-    const result = await dbClient.query('UPDATE "user" SET email = $1, password = $2, WHERE id = $3 RETURNING *', [data.email, data.password, id]);
+    const result = await dbClient.query('UPDATE "user" SET email = $1, first_name = $2, last_name = $3, password = $4, updated_at = $5 WHERE id = $6 RETURNING *', [data.newEmail, data.firstname, data.lastname, data.password, data.updatedAt, id]);
     return result.rows[0];
   },
   async delete(id) {

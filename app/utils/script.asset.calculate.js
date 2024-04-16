@@ -23,6 +23,7 @@ export default {
     let totalAssetNumber = 0;
     const { name } = data[0];
     const { symbol } = data[0];
+    const { price } = data[0];
     const assetId = data[0].asset_id;
     const assetLineDetail = [];
 
@@ -38,10 +39,8 @@ export default {
       const totalInvestLineWithFees = totalInvestLineWithoutFees - (totalInvestLineWithoutFees * (fees / 100));
 
       if (operationType === 'buy') {
-        totalEstimateAsset += totalInvestLineWithFees;
         totalAssetNumber += buyQuantity;
       } else if (operationType === 'sell') {
-        totalEstimateAsset -= totalInvestLineWithFees;
         totalAssetNumber -= buyQuantity;
       }
 
@@ -55,6 +54,8 @@ export default {
         totalInvestLineWithFees
       });
     });
+
+    totalEstimateAsset = totalAssetNumber * price;
 
     return {
       totalEstimateAsset: this.truncateToTwoDecimals(totalEstimateAsset),
