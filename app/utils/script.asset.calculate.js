@@ -23,6 +23,7 @@ export default {
     let totalAssetNumber = 0;
     const { name } = data[0];
     const { symbol } = data[0];
+    const categoryName = data[0].category_name;
     const { price } = data[0];
     const assetId = data[0].asset_id;
     const assetLineDetail = [];
@@ -62,6 +63,7 @@ export default {
       totalAssetNumber: this.truncateToEightDecimals(totalAssetNumber),
       name,
       symbol,
+      categoryName,
       assetId,
       assetLineDetail
     };

@@ -80,7 +80,7 @@ const dashboard = {
             il.fees,
             il.asset_number,
             tot.name AS trading_operation_type,
-            c.name,
+            c.name AS category_name,
             ass.name,
             ass.symbol,
             ass.id AS asset_id,

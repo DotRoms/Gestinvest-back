@@ -1,6 +1,7 @@
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import userDatamapper from '../datamappers/user.datamapper.js';
+import auth from '../utils/auth.js';
 
 const accountController = {
   async getUser(req, res) {
@@ -20,8 +21,6 @@ const accountController = {
     const { firstname } = req.body;
     const { lastname } = req.body;
     const { password } = req.body;
-    let confirmation;
-    let hashedPassword;
     let userUpdated;
     let token;
 
@@ -33,41 +32,15 @@ const accountController = {
 
     // On test si l'utilisateur a modifié son email
     if (newEmail !== user.email) {
-      // On vérifie que l'email est valide avec une regex
-      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-      if (!emailRegex.test(newEmail)) {
-        res.status(400).json({ errorMessage: 'Email invalide' });
-        return;
-      }
-
-      // On vérifie que l'email n'est pas déjà utilisé
-      const alreadyExistingUser = await userDatamapper.findByEmail(newEmail);
-      if (alreadyExistingUser) {
-        res.status(400).json({ errorMessage: 'Cet email est déjà utilisé' });
-        return;
-      }
-    }
-
+      
+      await auth.checkEmail(newEmail);
+     
     // On vérifie si le mot de passe corrspond à celui déjà utilisé
     if (password !== user.password) {
-      confirmation = req.body.confirmation;
+      const { confirmation } = req.body;
 
-      // On vérifie que les mots de passe correspondent
-      if (password !== confirmation) {
-        res.status(400).json({ errorMessage: 'Les mots de passe ne correspondent pas' });
-        return;
-      }
-
-      // Vérifier la complexité du mot de passe avec une regex
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-      if (!passwordRegex.test(password)) {
-        res.status(400).json({ errorMessage: 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre, un caractère spécial et avoir une longueur minimale de 8 caractères.' });
-        return;
-      }
-
-      // On hash le mot de passe avant de le stocker en BDD
-      const numberSaltRounds = parseInt(process.env.NB_OF_SALT_ROUNDS, 10);
-      hashedPassword = await bcrypt.hash(password, numberSaltRounds);
+      // On effectue les vérif sur le password et on le hash
+      const hashedPassword = await auth.checkPassword(password, confirmation);
 
       if (newEmail !== user.email) {
         token = jwt.sign({ email: newEmail, user: user.id }, process.env.JWT_PRIVATE_KEY, { expiresIn: '24h' });
