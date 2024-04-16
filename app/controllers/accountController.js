@@ -32,15 +32,33 @@ const accountController = {
 
     // On test si l'utilisateur a modifié son email
     if (newEmail !== user.email) {
-      
       await auth.checkEmail(newEmail);
-     
-    // On vérifie si le mot de passe corrspond à celui déjà utilisé
-    if (password !== user.password) {
-      const { confirmation } = req.body;
 
-      // On effectue les vérif sur le password et on le hash
-      const hashedPassword = await auth.checkPassword(password, confirmation);
+      // On vérifie si le mot de passe corrspond à celui déjà utilisé
+      if (password !== user.password) {
+        const { confirmation } = req.body;
+
+        // On effectue les vérif sur le password et on le hash
+        const hashedPassword = await auth.checkPassword(password, confirmation);
+
+        if (newEmail !== user.email) {
+          token = jwt.sign({ email: newEmail, user: user.id }, process.env.JWT_PRIVATE_KEY, { expiresIn: '24h' });
+        }
+
+        // On rassemble toute les données
+        const dataUser = {
+          newEmail,
+          firstname,
+          lastname,
+          password: hashedPassword,
+          updatedAt: new Date()
+        };
+
+        // On update les infos de l'utilisateur pour les mettre à jour en BDD
+        userUpdated = await userDatamapper.update(id, dataUser);
+        res.json({ userUpdated, token });
+        return;
+      }
 
       if (newEmail !== user.email) {
         token = jwt.sign({ email: newEmail, user: user.id }, process.env.JWT_PRIVATE_KEY, { expiresIn: '24h' });
@@ -51,33 +69,14 @@ const accountController = {
         newEmail,
         firstname,
         lastname,
-        password: hashedPassword,
+        password,
         updatedAt: new Date()
       };
 
       // On update les infos de l'utilisateur pour les mettre à jour en BDD
       userUpdated = await userDatamapper.update(id, dataUser);
       res.json({ userUpdated, token });
-      return;
     }
-
-    if (newEmail !== user.email) {
-      token = jwt.sign({ email: newEmail, user: user.id }, process.env.JWT_PRIVATE_KEY, { expiresIn: '24h' });
-    }
-
-    // On rassemble toute les données
-    const dataUser = {
-      newEmail,
-      firstname,
-      lastname,
-      password,
-      updatedAt: new Date()
-    };
-
-    // On update les infos de l'utilisateur pour les mettre à jour en BDD
-    userUpdated = await userDatamapper.update(id, dataUser);
-    res.json({ userUpdated, token });
   }
 };
-
 export default accountController;
