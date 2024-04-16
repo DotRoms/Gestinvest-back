@@ -11,7 +11,6 @@ const accountController = {
     // On récupère les informations de l'utilisateur depuis la BDD
     const Oneuser = await userDatamapper.findOne(id);
 
-    // On supprime le mot de passe de l'utilisateur
     res.json({ user: Oneuser });
   },
 

@@ -26,6 +26,7 @@ export default {
     const categoryName = data[0].category_name;
     const { price } = data[0];
     const assetId = data[0].asset_id;
+    const { local } = data[0];
     const assetLineDetail = [];
 
     data.forEach((line) => {
@@ -67,6 +68,7 @@ export default {
       totalAssetNumber: this.truncateToEightDecimals(totalAssetNumber),
       name,
       symbol,
+      local,
       categoryName,
       assetId,
       assetLineDetail
