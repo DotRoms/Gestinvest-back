@@ -32,6 +32,7 @@ const accountController = {
 
     // On test si l'utilisateur a modifié son email
     if (newEmail !== user.email) {
+      // On effectue les vérif pour l'email
       await auth.checkEmail(newEmail);
 
       // On vérifie si le mot de passe corrspond à celui déjà utilisé

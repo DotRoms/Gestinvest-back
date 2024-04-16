@@ -22,7 +22,7 @@ export default {
     let totalEstimateAsset = 0;
     let totalAssetNumber = 0;
     const { name } = data[0];
-    const { symbol } = data[0];
+    let { symbol } = data[0];
     const categoryName = data[0].category_name;
     const { price } = data[0];
     const assetId = data[0].asset_id;
@@ -57,6 +57,10 @@ export default {
     });
 
     totalEstimateAsset = totalAssetNumber * price;
+
+    if (categoryName === 'stock') {
+      symbol = symbol.replace(/\.PA$/, '');
+    }
 
     return {
       totalEstimateAsset: this.truncateToTwoDecimals(totalEstimateAsset),
