@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import users from '../datamappers/user.datamapper.js';
+// import auth from '../utils/auth.js';
 
 const authController = {
   async signup(req, res) {
@@ -13,10 +14,19 @@ const authController = {
       return;
     }
 
+    // await auth.checkEmail(email);
+
     // On vérifie que l'email est valide avec une regex
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     if (!emailRegex.test(email)) {
       res.status(400).json({ errorMessage: 'Email invalide' });
+      return;
+    }
+
+    // On vérifie que l'email n'est pas déjà utilisé
+    const alreadyExistingUser = await users.findByEmail(email);
+    if (alreadyExistingUser) {
+      res.status(400).json({ errorMessage: 'Cet email est déjà utilisé' });
       return;
     }
 
@@ -30,13 +40,6 @@ const authController = {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
       res.status(400).json({ errorMessage: 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre, un caractère spécial et avoir une longueur minimale de 8 caractères.' });
-      return;
-    }
-
-    // On vérifie que l'email n'est pas déjà utilisé
-    const alreadyExistingUser = await users.findByEmail(email);
-    if (alreadyExistingUser) {
-      res.status(400).json({ errorMessage: 'Cet email est déjà utilisé' });
       return;
     }
 
