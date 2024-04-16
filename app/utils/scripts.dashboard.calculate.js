@@ -23,7 +23,7 @@ export default {
       const assetPrice = this.truncateToTwoDecimals(parseFloat(line.asset_price));
       const pourcentFees = line.fees;
       const assetName = line.asset_name;
-      let { symbol } = line;
+      const { symbol } = line;
       const category = line.name;
       const transactionType = line.trading_operation_type;
       const totalEstimate = this.truncateToTwoDecimals(buyQuantity * assetPrice);
@@ -31,9 +31,9 @@ export default {
       const totalInvestLineWithoutFees = (buyQuantity * priceInvest);
       const totalInvestLineWithFees = totalInvestLineWithoutFees - (totalInvestLineWithoutFees * (pourcentFees / 100));
 
-      if (category === 'stock') {
-        symbol = symbol.replace(/\.PA$/, '');
-      }
+      // if (category === 'stock') {
+      //   symbol = symbol.replace(/\.PA$/, '');
+      // }
 
       if (transactionType === 'buy') {
         totalInvestment += totalInvestLineWithFees;
