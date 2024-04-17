@@ -5,7 +5,7 @@ export default {
   async checkPassword(password, confirmPassword) {
     // On vérifie que les mots de passe correspondent
     if (password !== confirmPassword) {
-      throw new Error('Les mots de passe ne correspondent pas');
+      throw new Error('Erreur mot de passe');
     }
 
     // Vérifier la complexité du mot de passe avec une regex

@@ -10,8 +10,7 @@ const authController = {
 
     // On vérifie que tous les champs sont remplis
     if (!email || !password || !confirmation) {
-      res.status(400).json({ errorMessage: 'Veuillez remplir tous les champs' });
-      return;
+      throw new Error('Veuillez remplir tous les champs');
     }
 
     // On effectue les vérifs pour l'email

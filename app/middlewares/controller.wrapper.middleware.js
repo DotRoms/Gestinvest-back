@@ -3,6 +3,6 @@ export default (controller) => async (req, res, next) => {
     return await controller(req, res, next);
   } catch (err) {
     console.error(err);
-    return res.json({ errorMessage: err.message });
+    return res.status(400).json({ errorMessage: err.message });
   }
 };

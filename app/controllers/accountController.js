@@ -1,5 +1,6 @@
 // import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import userDatamapper from '../datamappers/user.datamapper.js';
 import auth from '../utils/auth.js';
 
@@ -39,7 +40,8 @@ const accountController = {
     }
 
     // On vérifie si le mot de passe a était modifié
-    if (password !== user.password) {
+    const passwordMatches = await bcrypt.compare(password, user.password);
+    if (passwordMatches) {
       const { confirmation } = req.body;
 
       // On effectue les vérif sur le password et on le hash
@@ -47,7 +49,7 @@ const accountController = {
 
       // On rassemble toute les données
       const dataUser = {
-        newEmail,
+        email: newEmail,
         firstname,
         lastname,
         password: hashedPassword,
@@ -62,10 +64,10 @@ const accountController = {
 
     // On rassemble toute les données
     const dataUser = {
-      newEmail,
+      email: newEmail,
       firstname,
       lastname,
-      password,
+      password: user.password,
       updatedAt: new Date()
     };
 
