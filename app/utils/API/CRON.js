@@ -1,10 +1,10 @@
-import cron from 'node-cron';
 import 'dotenv/config';
-import stockApi from './api.stock.js';
+import cron from 'node-cron';
 import cryptoApi from './api.crypto.js';
+import stockApi from './api.stock.js';
 
 const task = cron.schedule(
-  '0 0,12 * * *',
+  '35 16 * * *',
   async () => {
     await cryptoApi.getPriceCrypto(1, 60);
     await stockApi.getPriceStock(2, 40);
