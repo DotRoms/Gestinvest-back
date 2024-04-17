@@ -15,7 +15,7 @@ export default {
   // Permet de formater la date au format FR jj-mm-aaaa
   formatDateFr(date) {
     const dateToFormat = dayjs(date);
-    return dateToFormat.format('DD-MM-YYYY');
+    return dateToFormat.format('DD-MM-YY');
   },
 
   calculate(data) {
@@ -34,7 +34,7 @@ export default {
       const date = this.formatDateFr(line.invest_date);
       const priceInvest = parseFloat(line.price_invest);
       const buyQuantity = parseFloat(line.asset_number);
-      const operationType = line.trading_operation_type;
+      let operationType = line.trading_operation_type;
       const { fees } = line;
 
       const totalInvestLineWithoutFees = (buyQuantity * priceInvest);
@@ -42,8 +42,10 @@ export default {
 
       if (operationType === 'buy') {
         totalAssetNumber += buyQuantity;
+        operationType = 'Achat';
       } else if (operationType === 'sell') {
         totalAssetNumber -= buyQuantity;
+        operationType = 'Vente';
       }
 
       assetLineDetail.push({
