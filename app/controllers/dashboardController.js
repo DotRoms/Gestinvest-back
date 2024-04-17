@@ -1,8 +1,10 @@
 import dashboardDatamapper from '../datamappers/dashboard.datamapper.js';
-import calculateAssetInformation from '../utils/scripts.calculate.js';
+import calculateAssetInformation from '../utils/scripts.dashboard.calculate.js';
 import assetDatamapper from '../datamappers/asset.datamapper.js';
 import userDatamapper from '../datamappers/user.datamapper.js';
 import tradingOperationDatamapper from '../datamappers/tradingOperation.datamapper.js';
+import scriptAssetCalculate from '../utils/script.asset.calculate.js';
+import isDateOk from '../utils/testDate.js';
 
 const dashboard = {
   async dashboardDetail(req, res) {
@@ -29,15 +31,21 @@ const dashboard = {
     const { fees } = req.body;
     const { date } = req.body;
 
+    // On vérifie que la date envoyée par l'utilisateur n'est pas supérieur à la date actuelle
+    const dateCheck = isDateOk(date);
+    if (dateCheck) {
+      throw new Error('La date n\'est pas valide');
+    }
+
     // On vérifie que tous les champs soient bien remplis
     if (!assetName || !assetNumber || !price || !fees || !date) {
-      return res.status(400).json({ errorMessage: 'Veuillez remplir tous les champs' });
+      throw new Error('Veuillez remplir tous les champs');
     }
 
     // On récupère l'id de l'asset que l'on achète ou vend
     const assetId = await assetDatamapper.getAssetId(assetName);
     if (!assetId) {
-      return res.status(400).json({ errorMessage: 'Cet actif n\'est pas répertorié' });
+      throw new Error('Cet actif n\'est pas répertorié');
     }
 
     // On récupère l'id de l'utilisateur
@@ -63,7 +71,7 @@ const dashboard = {
       const invalidData = assetInformationByUser.assetUserInformation.find((obj) => obj.assetName.toLowerCase() === assetName.toLowerCase() && obj.quantity < assetNumber);
 
       if (invalidData || assetNumber === 0) {
-        return res.status(400).json({ errorMessage: 'La valeur saisie n\'est pas valide' });
+        throw new Error('La valeur saisie n\'est pas valide');
       }
     }
 
@@ -83,6 +91,22 @@ const dashboard = {
 
     // On retourne que l'ajout a bien été effectué
     return res.json({ successMessage: 'Ajout bien effectuer' });
+  },
+
+  async assetDetails(req, res) {
+    // On récupère le symbole de l'asset depuis les params de la requête
+    const symbol = req.params.asset;
+
+    // On récupère l'id de l'utilisateur
+    const userId = req.user.id;
+
+    // On récupère toutes les lignes d'investissement de l'utilisateur pour un actif donné
+    const assetDetails = await dashboardDatamapper.getAllAssetLineByUser(userId, symbol);
+
+    // On fait les calculs pour avoir le détail de toutes les lignes suivant un actif
+    const assetDetailsCalculated = scriptAssetCalculate.calculate(assetDetails);
+
+    res.json({ assetDetailsCalculated });
   }
 };
 export default dashboard;

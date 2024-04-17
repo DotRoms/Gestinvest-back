@@ -12,4 +12,6 @@ router.post('/buy', controllerWrapper(dashBoardController.addLine));
 
 router.post('/sell', controllerWrapper(dashBoardController.addLine));
 
+router.get('/assetdetails/:asset', controllerWrapper(dashBoardController.assetDetails));
+
 export default router;

@@ -69,6 +69,37 @@ const dashboard = {
 
   async deleteLine(lineId) {
     await dbClient.query('DELETE FROM invest_line WHERE id = $1;', [lineId]);
+  },
+
+  async getAllAssetLineByUser(userId, symbol) {
+    const result = await dbClient.query(`
+        SELECT 
+            il.id,
+            il.price AS price_invest,
+            il.date AS invest_date,
+            il.fees,
+            il.asset_number,
+            tot.name AS trading_operation_type,
+            c.name AS category_name,
+            ass.local,
+            ass.name,
+            ass.symbol,
+            ass.id AS asset_id,
+            ass.price
+            FROM invest_line AS il
+        JOIN portfolio AS p 
+                        ON portfolio_id = p.id
+        JOIN "user" AS u 
+                        ON user_id = u.id
+        JOIN trading_operation_type AS tot 
+                        ON trading_operation_type_id = tot.id
+        JOIN asset AS ass 
+                        ON asset_id = ass.id
+        JOIN category AS c 
+                        ON category_id = c.id
+        WHERE u.id = $1 and ass.symbol = $2;
+        `, [userId, symbol]);
+    return result.rows;
   }
 };
 

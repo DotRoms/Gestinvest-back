@@ -3,6 +3,6 @@ export default (controller) => async (req, res, next) => {
     return await controller(req, res, next);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ errorMessage: 'internal server error' });
+    return res.status(400).json({ errorMessage: err.message });
   }
 };
