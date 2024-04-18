@@ -13,9 +13,4 @@ const client = new Pool({
   // }
 });
 
-// Gérer les erreurs de connexion à la base de données
-// client.on('error', (err) => {
-//   console.error('Erreur de connexion à la base de données :', err.stack);
-// });
-
 export default client;

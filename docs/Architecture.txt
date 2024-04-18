@@ -1,19 +1,27 @@
-/backend
+Architecture app.txt
 │
 ├── controllers
 │   ├── authController.js
-│   ├── userController.js
-│   └── ...
+│   ├── accountController.js
+│   └── dashboardController.js
 │
 ├── routes
-│   ├── authRouter.js
-│   ├── userRouter.js
-│   └── ...
+│   └── index.api.router.js
+│       ├── authRouter.js
+│       ├── accountRouter.js
+│       └── dashboardRouter.js
 │
-├── models
-│   ├── User.js
-│   ├── Portfolio.js
-│   └── ...
+├── datamappers
+│   ├── asset.datamapper.js
+│   ├── dashboard.datamapper.js
+│   ├── tradingOperation.datamapper.js
+│   ├── user.datamapper.js
+│   └── dbClient.js
+│   
+│
+├── data
+│   └── seeding.sql
+│
 │
 │
 ├── middleware
@@ -21,4 +29,21 @@
 │   ├── errorMiddleware.js
 │   └── ...
 │
-└── index.js
+├── utils
+│   ├── API
+│       ├── api.crypto.js
+│       ├── api.stock.js
+│       └── CRON.js
+│   ├── auth.js
+│   ├── script.asset.calculate.js
+│   ├── script.dashboard.calculate.js
+│   ├── testDate.js
+│   ├── update.prices.api.js
+│   └── ...
+│
+├── services
+│   ├── authController.spec.js
+│   └── script.calculate.spec.js
+│    
+│
+├── index.app.js
