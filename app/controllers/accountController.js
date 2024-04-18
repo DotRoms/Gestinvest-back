@@ -41,7 +41,7 @@ const accountController = {
 
     // On vérifie si le mot de passe a était modifié
     const passwordMatches = await bcrypt.compare(password, user.password);
-    if (passwordMatches) {
+    if (!passwordMatches) {
       const { confirmation } = req.body;
 
       // On effectue les vérif sur le password et on le hash

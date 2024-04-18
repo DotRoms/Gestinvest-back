@@ -67,10 +67,6 @@ const dashboard = {
     return result.rows[0];
   },
 
-  async deleteLine(lineId) {
-    await dbClient.query('DELETE FROM invest_line WHERE id = $1;', [lineId]);
-  },
-
   async getAllAssetLineByUser(userId, symbol) {
     const result = await dbClient.query(`
         SELECT 
