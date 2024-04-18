@@ -1,4 +1,5 @@
 import truncate from './truncate.js';
+import truncateNumber from './truncateNumber.js';
 
 export default {
 
@@ -22,7 +23,7 @@ export default {
     data.forEach((line) => {
       const buyQuantity = parseFloat(line.asset_number);
       const priceInvest = parseFloat(line.price_invest);
-      const assetPrice = truncate.truncateToEightDecimals(parseFloat(line.asset_price));
+      const assetPrice = truncateNumber(parseFloat(line.asset_price));
       const pourcentFees = line.fees;
       const assetName = line.asset_name;
       const { symbol } = line;

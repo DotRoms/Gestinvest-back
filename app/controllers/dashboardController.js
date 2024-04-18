@@ -14,6 +14,14 @@ const dashboard = {
     // On récupère toutes les lignes d'investissement de l'utilisateur et on fait tout les calculs
     const allLines = await dashboardDatamapper.findAllTradingLinesByUser(id);
     const assetInformationByUser = calculateAssetInformation.getAssetUserInformation(allLines);
+    const newAssetInformationByUser = assetInformationByUser.assetUserInformation;
+
+    // On vérifie si l'utilisateur réalise une vente équivalente au total des actifs possédé, si égale a 0 alors on supprime la ligne pour ne pas l'afficher sur le dashboard
+    newAssetInformationByUser.forEach((obj, index) => {
+      if (obj.quantity === 0) {
+        newAssetInformationByUser.splice(index, 1);
+      }
+    });
     res.json({ userInformation: assetInformationByUser });
   },
 
@@ -68,9 +76,9 @@ const dashboard = {
 
     // On vérifie si l'utilisateur ne vend pas plus d'asset qu'il n'en possède
     if (tradingOperationType === 'sell') {
-      const invalidData = assetInformationByUser.assetUserInformation.find((obj) => obj.assetName.toLowerCase() === assetName.toLowerCase() && obj.quantity < assetNumber);
+      const invalidData = assetInformationByUser.assetUserInformation.find((obj) => obj.assetName.toLowerCase() === assetName.toLowerCase() && obj.quantity <= assetNumber);
 
-      if (invalidData || assetNumber === 0) {
+      if (!invalidData || assetNumber === 0) {
         throw new Error('La valeur saisie n\'est pas valide');
       }
     }
