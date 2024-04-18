@@ -1,10 +1,15 @@
 import axios from 'axios';
 import 'dotenv/config';
 import assetDatamapper from '../../datamappers/asset.datamapper.js';
-import groupSymbols from '../update.prices.api.js';
+import groupSymbols from '../groupeSymbols.js';
 
 export default {
 
+  /**
+     *
+     * @param {string} group - Les symboles des actifs
+     * @returns {Promise} - Les prix des actifs
+     */
   // Fonction pour récupérer les prix des cryptomonnaies pour un groupe donné
   async fetchPricesForGroup(group) {
   // Endpoint de l'API CoinMarketCap pour obtenir les dernières cotations des cryptomonnaies spécifiées dans le groupe
@@ -47,7 +52,6 @@ export default {
             Object.keys(prices).forEach(async (symbol) => {
               const { price } = prices[symbol].quote.USD;
               const arroundPrice = price.toFixed(8);
-              // console.log({ symbol, price: `${arroundPrice}` });
               await assetDatamapper.updatePrices(symbol, arroundPrice);
             });
           }
@@ -58,5 +62,3 @@ export default {
     }
   }
 };
-// Appeler la fonction pour récupérer et afficher les prix des cryptomonnaies
-// getPrice(1, 60);
