@@ -1,9 +1,9 @@
-import dashboardDatamapper from '../datamappers/dashboard.datamapper.js';
-import calculateAssetInformation from '../utils/scripts.dashboard.calculate.js';
 import assetDatamapper from '../datamappers/asset.datamapper.js';
-import userDatamapper from '../datamappers/user.datamapper.js';
+import dashboardDatamapper from '../datamappers/dashboard.datamapper.js';
 import tradingOperationDatamapper from '../datamappers/tradingOperation.datamapper.js';
+import userDatamapper from '../datamappers/user.datamapper.js';
 import scriptAssetCalculate from '../utils/script.asset.calculate.js';
+import calculateAssetInformation from '../utils/scripts.dashboard.calculate.js';
 import isDateOk from '../utils/testDate.js';
 
 const dashboard = {
@@ -74,15 +74,24 @@ const dashboard = {
     const allLines = await dashboardDatamapper.findAllTradingLinesByUser(id);
     const assetInformationByUser = calculateAssetInformation.getAssetUserInformation(allLines);
 
-    // On vérifie si l'utilisateur ne vend pas plus d'asset qu'il n'en possède
     if (tradingOperationType === 'sell') {
-      const invalidData = assetInformationByUser.assetUserInformation.find((obj) => obj.assetName.toLowerCase() === assetName.toLowerCase() && obj.quantity <= assetNumber);
+      const asset = assetInformationByUser.assetUserInformation.find((obj) => obj.assetName.toLowerCase() === assetName.toLowerCase());
 
-      if (!invalidData || assetNumber === 0) {
-        throw new Error('La valeur saisie n\'est pas valide');
+      // Vérifie si l'objet existe
+      if (!asset) {
+        throw new Error('L\'actif spécifié n\'existe pas dans votre portefeuille');
+      }
+
+      // Vérifie si la quantité à vendre est valide
+      if (asset.quantity < assetNumber) {
+        throw new Error('La quantité à vendre dépasse ce que vous possédez');
+      }
+
+      // Vérifie si assetNumber est positif
+      if (assetNumber <= 0) {
+        throw new Error('La quantité à vendre doit être supérieure à zéro');
       }
     }
-
     // On regroupe la data pour pouvoir les ajouter en base de données
     const newData = {
       assetId: assetId.id,
