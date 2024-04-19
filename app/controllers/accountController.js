@@ -10,7 +10,7 @@ const accountController = {
     const { id } = req.user;
 
     // On récupère les informations de l'utilisateur depuis la BDD
-    const Oneuser = await userDatamapper.findOne(id);
+    const Oneuser = await userDatamapper.findOneWithoutPassword(id);
 
     res.json({ user: Oneuser });
   },
