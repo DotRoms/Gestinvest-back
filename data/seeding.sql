@@ -23,7 +23,7 @@ INSERT INTO "asset" ("name", "symbol", "category_id") VALUES
 ('Tron', 'TRX', 1),
 ('Polygon', 'MATIC', 1),
 ('Uniswap', 'UNI', 1),
-('Aave', 'AVA', 1),
+('Aave', 'AAVE', 1),
 ('Cosmos', 'ATOM', 1),
 ('Tezos', 'XTZ', 1),
 ('Chiliz', 'CHZ', 1),
