@@ -1,5 +1,5 @@
 /* eslint-disable */
-import scriptsCalculate from '../utils/scripts.calculate.js';
+import scriptsCalculate from '../utils/scripts.dashboard.calculate.js';
 
 // On initialise les données pour le test
 const testTransactionData = [
