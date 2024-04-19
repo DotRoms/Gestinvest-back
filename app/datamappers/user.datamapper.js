@@ -5,6 +5,10 @@ const users = {
     const result = await dbClient.query('SELECT * FROM "user" WHERE id = $1', [id]);
     return result.rows[0];
   },
+  async findOneWithoutPassword(id) {
+    const result = await dbClient.query('SELECT id, email, first_name, last_name FROM "user" WHERE id = $1', [id]);
+    return result.rows[0];
+  },
   async findByEmail(email) {
     const result = await dbClient.query('SELECT * FROM "user" WHERE email = $1', [email]);
     return result.rows[0];
@@ -18,7 +22,7 @@ const users = {
   },
 
   async update(id, data) {
-    const result = await dbClient.query('UPDATE "user" SET email = $1, first_name = $2, last_name = $3, password = $4, updated_at = $5 WHERE id = $6 RETURNING *', [data.email, data.firstname, data.lastname, data.password, data.updatedAt, id]);
+    const result = await dbClient.query('UPDATE "user" SET email = $1, first_name = $2, last_name = $3, password = $4, updated_at = $5 WHERE id = $6 RETURNING id, email, first_name, last_name', [data.email, data.firstname, data.lastname, data.password, data.updatedAt, id]);
     return result.rows[0];
   },
 
