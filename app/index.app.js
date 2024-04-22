@@ -13,8 +13,14 @@ import router from './routers/index.api.router.js';
 // Initialise une nouvelle instance d'application Express
 const app = express();
 
+const corsOptions = {
+  // origin: 'http://localhost:5173',
+  origin: 'https://gestinvest-front-8af1ad4ce95a.herokuapp.com/',
+  optionsSuccessStatus: 200
+};
+
 // On utilise les cors pour communication front-back
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Utilise le middleware (boydparser) express.json pour traiter les requêtes au format JSON
 app.use(express.json());
