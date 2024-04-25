@@ -18,7 +18,7 @@ export default {
 
       // Vérifier si l'utilisateur existe dans la base de données avec les informations extraites
       const userInfo = await user.findByEmail(decodedToken.email);
-      if (!user) {
+      if (!userInfo) {
         return res.status(401).json({ errorMessage: 'Utilisateur non trouvé' });
       }
 
